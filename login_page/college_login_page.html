@@ -1,0 +1,506 @@
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=DM+Serif+Display&display=swap');
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  .page {
+    min-height: 580px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1rem;
+    font-family: 'DM Sans', var(--font-sans);
+  }
+
+  .college-header {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
+  .college-logo {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    background: var(--color-text-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 12px;
+  }
+
+  .college-logo svg {
+    display: block;
+  }
+
+  .college-name {
+    font-family: 'DM Serif Display', var(--font-serif);
+    font-size: 20px;
+    color: var(--color-text-primary);
+    letter-spacing: -0.3px;
+  }
+
+  .college-tagline {
+    font-size: 13px;
+    color: var(--color-text-tertiary);
+    margin-top: 3px;
+    font-weight: 300;
+  }
+
+  /* Role picker */
+  .role-picker {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    width: 100%;
+    max-width: 480px;
+    margin-bottom: 1.5rem;
+  }
+
+  .role-card {
+    background: var(--color-background-primary);
+    border: 0.5px solid var(--color-border-tertiary);
+    border-radius: var(--border-radius-lg);
+    padding: 14px 10px;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s;
+    user-select: none;
+  }
+
+  .role-card:hover {
+    border-color: var(--color-border-secondary);
+    background: var(--color-background-secondary);
+  }
+
+  .role-card.active {
+    border-color: var(--color-border-primary);
+    background: var(--color-background-secondary);
+  }
+
+  .role-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    margin: 0 auto 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .role-icon.teacher {
+    background: #E6F1FB;
+  }
+
+  .role-icon.student {
+    background: #E1F5EE;
+  }
+
+  .role-icon.guest {
+    background: #FAEEDA;
+  }
+
+  .role-card.active .role-icon.teacher {
+    background: #B5D4F4;
+  }
+
+  .role-card.active .role-icon.student {
+    background: #9FE1CB;
+  }
+
+  .role-card.active .role-icon.guest {
+    background: #FAC775;
+  }
+
+  .role-label {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--color-text-primary);
+    display: block;
+  }
+
+  .role-desc {
+    font-size: 11px;
+    color: var(--color-text-tertiary);
+    margin-top: 2px;
+    font-weight: 300;
+    line-height: 1.4;
+  }
+
+  /* Login form */
+  .login-card {
+    background: var(--color-background-primary);
+    border: 0.5px solid var(--color-border-tertiary);
+    border-radius: var(--border-radius-lg);
+    padding: 1.75rem 1.75rem;
+    width: 100%;
+    max-width: 480px;
+  }
+
+  .form-heading {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--color-text-primary);
+    margin-bottom: 4px;
+  }
+
+  .form-sub {
+    font-size: 13px;
+    color: var(--color-text-tertiary);
+    font-weight: 300;
+    margin-bottom: 1.25rem;
+  }
+
+  .field {
+    margin-bottom: 12px;
+  }
+
+  .field label {
+    display: block;
+    font-size: 12px;
+    color: var(--color-text-secondary);
+    margin-bottom: 5px;
+  }
+
+  .field input {
+    width: 100%;
+    padding: 9px 12px;
+    font-size: 14px;
+    font-family: 'DM Sans', var(--font-sans);
+    background: var(--color-background-secondary);
+    border: 0.5px solid var(--color-border-secondary);
+    border-radius: var(--border-radius-md);
+    color: var(--color-text-primary);
+    outline: none;
+    transition: border-color 0.15s;
+  }
+
+  .field input:focus {
+    border-color: var(--color-border-primary);
+    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.05);
+  }
+
+  /* Guest note */
+  .guest-note {
+    display: none;
+    background: var(--color-background-secondary);
+    border: 0.5px solid var(--color-border-tertiary);
+    border-radius: var(--border-radius-md);
+    padding: 10px 14px;
+    font-size: 13px;
+    color: var(--color-text-secondary);
+    margin-bottom: 1rem;
+    line-height: 1.5;
+  }
+
+  .row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.25rem;
+  }
+
+  .row label {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 13px;
+    color: var(--color-text-secondary);
+    cursor: pointer;
+  }
+
+  .row a {
+    font-size: 12px;
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .row a:hover {
+    color: var(--color-text-primary);
+  }
+
+  .btn-submit {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: var(--border-radius-md);
+    font-size: 14px;
+    font-weight: 500;
+    font-family: 'DM Sans', var(--font-sans);
+    cursor: pointer;
+    transition: opacity 0.15s, transform 0.1s;
+    color: var(--color-background-primary);
+    background: var(--color-text-primary);
+  }
+
+  .btn-submit.teacher {
+    background: #185FA5;
+  }
+
+  .btn-submit.student {
+    background: #0F6E56;
+  }
+
+  .btn-submit.guest {
+    background: #BA7517;
+    color: #fff;
+  }
+
+  .btn-submit:hover {
+    opacity: 0.85;
+  }
+
+  .btn-submit:active {
+    transform: scale(0.98);
+  }
+
+  .toast {
+    display: none;
+    border-radius: var(--border-radius-md);
+    padding: 9px 14px;
+    font-size: 13px;
+    margin-bottom: 1rem;
+    border: 0.5px solid;
+  }
+
+  .toast.error {
+    background: #FCEBEB;
+    color: #A32D2D;
+    border-color: #F09595;
+  }
+
+  .toast.success {
+    background: #EAF3DE;
+    color: #3B6D11;
+    border-color: #97C459;
+  }
+
+  .hint {
+    text-align: center;
+    font-size: 12px;
+    color: var(--color-text-tertiary);
+    margin-top: 1rem;
+    font-style: italic;
+  }
+</style>
+
+<div class="page">
+  <div class="college-header">
+    <div class="college-logo">
+      <svg width="26" height="26" viewBox="0 0 26 26" fill="none">
+        <path d="M13 3L2 9l11 6 11-6-11-6z" fill="white" opacity="0.9" />
+        <path d="M2 9v8M24 9v8" stroke="white" stroke-width="1.5" stroke-linecap="round" />
+        <path d="M6 11.5v5c0 2 3 4 7 4s7-2 7-4v-5" fill="white" opacity="0.5" />
+      </svg>
+    </div>
+    <div class="college-name">Greenfield University</div>
+    <div class="college-tagline">Academic Management Portal</div>
+  </div>
+
+  <div class="role-picker">
+    <div class="role-card active" onclick="selectRole('teacher', this)">
+      <div class="role-icon teacher">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#185FA5" stroke-width="1.8"
+          stroke-linecap="round">
+          <rect x="3" y="4" width="18" height="14" rx="2" />
+          <path d="M8 20h8M12 18v2" />
+          <path d="M7 9h10M7 13h6" />
+        </svg>
+      </div>
+      <span class="role-label">Teacher</span>
+      <span class="role-desc">Manage student records</span>
+    </div>
+    <div class="role-card" onclick="selectRole('student', this)">
+      <div class="role-icon student">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0F6E56" stroke-width="1.8"
+          stroke-linecap="round">
+          <circle cx="12" cy="7" r="4" />
+          <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" />
+        </svg>
+      </div>
+      <span class="role-label">Student</span>
+      <span class="role-desc">View your profile & results</span>
+    </div>
+    <div class="role-card" onclick="selectRole('guest', this)">
+      <div class="role-icon guest">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#BA7517" stroke-width="1.8"
+          stroke-linecap="round">
+          <circle cx="12" cy="12" r="9" />
+          <path d="M12 8v4l3 3" />
+        </svg>
+      </div>
+      <span class="role-label">Guest</span>
+      <span class="role-desc">Browse public info</span>
+    </div>
+  </div>
+
+  <div class="login-card">
+    <div id="toast" class="toast"></div>
+
+    <div id="form-heading" class="form-heading">Teacher Sign In</div>
+    <div id="form-sub" class="form-sub">Sign in to manage attendance, results & student records</div>
+
+    <div id="guest-note" class="guest-note">
+      No account needed. As a guest you can browse public notices, events, and general college information.
+    </div>
+
+    <div id="fields">
+      <div class="field">
+        <label id="id-label">Staff ID or Email</label>
+        <input type="text" id="input-id" placeholder="e.g. staff@greenfield.edu" />
+      </div>
+      <div class="field">
+        <label>Password</label>
+        <input type="password" id="input-pass" placeholder="••••••••" />
+      </div>
+    </div>
+
+    <div class="row" id="row-extras">
+      <label><input type="checkbox" /> Remember me</label>
+      <a>Forgot password?</a>
+    </div>
+
+    <button class="btn-submit teacher" id="btn-submit" onclick="handleSubmit()">Sign in as Teacher</button>
+
+    <div class="hint" id="hint">Demo: any credentials will work</div>
+  </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+<script>
+  const client = supabase.createClient(
+    "https://frjvwrgtjukhcskmlv.supabase.co",
+    "sb_publishable_-uo6SvV_QY-IZ8SJ7rv33Q_mE_kJFsO"
+  );
+  let currentRole = 'teacher';
+
+  const config = {
+    teacher: {
+      heading: 'Teacher Sign In',
+      sub: 'Manage attendance, results & student records',
+      idLabel: 'Staff ID or Email',
+      idPlaceholder: 'e.g. staff@greenfield.edu',
+      btnText: 'Sign in as Teacher',
+      btnClass: 'teacher',
+      showFields: true,
+      hint: 'Demo: any credentials will work'
+    },
+    student: {
+      heading: 'Student Sign In',
+      sub: 'Access your profile, attendance and results',
+      idLabel: 'Roll Number or Email',
+      idPlaceholder: 'e.g. 2024CS001 or name@student.edu',
+      btnText: 'Sign in as Student',
+      btnClass: 'student',
+      showFields: true,
+      hint: 'Demo: any credentials will work'
+    },
+    guest: {
+      heading: 'Guest Access',
+      sub: 'Browse public college information',
+      btnText: 'Continue as Guest',
+      btnClass: 'guest',
+      showFields: false,
+      hint: 'No account required'
+    }
+  };
+
+  function selectRole(role, el) {
+    currentRole = role;
+    document.querySelectorAll('.role-card').forEach(c => c.classList.remove('active'));
+    el.classList.add('active');
+
+    const c = config[role];
+    document.getElementById('form-heading').textContent = c.heading;
+    document.getElementById('form-sub').textContent = c.sub;
+    document.getElementById('btn-submit').textContent = c.btnText;
+    document.getElementById('btn-submit').className = 'btn-submit ' + c.btnClass;
+    document.getElementById('hint').textContent = c.hint;
+
+    const fields = document.getElementById('fields');
+    const extras = document.getElementById('row-extras');
+    const guestNote = document.getElementById('guest-note');
+    const toast = document.getElementById('toast');
+    toast.style.display = 'none';
+
+    if (c.showFields) {
+      fields.style.display = 'block';
+      extras.style.display = 'flex';
+      guestNote.style.display = 'none';
+      document.getElementById('id-label').textContent = c.idLabel;
+      document.getElementById('input-id').placeholder = c.idPlaceholder;
+      document.getElementById('input-id').value = '';
+      document.getElementById('input-pass').value = '';
+    } else {
+      fields.style.display = 'none';
+      extras.style.display = 'none';
+      guestNote.style.display = 'block';
+    }
+  }
+
+  async function handleSubmit() {
+  const toast = document.getElementById('toast');
+  const c = config[currentRole];
+
+  // 👀 Guest (no login)
+  if (currentRole === 'guest') {
+    toast.className = 'toast success';
+    toast.textContent = '✓ Guest access granted. Enjoy browsing!';
+    toast.style.display = 'block';
+
+    setTimeout(() => {
+      window.location.href = "index.html";
+    }, 1000);
+
+    return;
+  }
+
+  // validation
+  const email = document.getElementById('input-id').value.trim();
+  const password = document.getElementById('input-pass').value.trim();
+
+  if (!email || !password) {
+    toast.className = 'toast error';
+    toast.textContent = 'Please fill in all fields';
+    toast.style.display = 'block';
+    return;
+  }
+
+  // 🔐 LOGIN
+  const { data, error } = await client.auth.signInWithPassword({
+    email,
+    password
+  });
+
+  if (error) {
+    toast.className = 'toast error';
+    toast.textContent = error.message;
+    toast.style.display = 'block';
+    return;
+  }
+
+  // 🎯 GET ROLE
+  const { data: userData } = await client.auth.getUser();
+
+  const { data: profile } = await client
+    .from('profiles')
+    .select('role')
+    .eq('id', userData.user.id)
+    .single();
+
+  const role = profile.role;
+
+  // 🔀 REDIRECT
+  if (role === 'admin') {
+    window.location.href = "admin.html";
+  } else if (role === 'teacher') {
+    window.location.href = "teacher.html";
+  } else {
+    window.location.href = "student.html";
+  }
+}
+</script>

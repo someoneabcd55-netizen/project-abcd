@@ -1,0 +1,189 @@
+{
+  "entities": {
+    "TeamMember": {
+      "title": "Team Member",
+      "type": "object",
+      "description": "Represents a faculty or staff member.",
+      "properties": {
+        "name": { "type": "string" },
+        "title": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "department": { "type": "string", "enum": ["Bachelor of Commerce", "Bachelor of Arts", "Administration", "ANO", "Instructors"]},
+        "expertise": { "type": "array", "items": { "type": "string" } },
+        "imageUrl": { "type": "string", "format": "uri" }
+      },
+      "required": ["name", "title", "email", "department"]
+    },
+    "Announcement": {
+      "title": "Announcement",
+      "type": "object",
+      "description": "Represents a college announcement.",
+      "properties": {
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "date": { "type": "string", "format": "date" }
+      },
+      "required": ["title", "description", "date"]
+    },
+    "Event": {
+      "title": "Event",
+      "type": "object",
+      "description": "Represents a college event.",
+      "properties": {
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "date": { "type": "string", "format": "date" },
+        "location": { "type": "string" },
+        "type": { "type": "string", "enum": ["Academic", "Extracurricular"] }
+      },
+      "required": ["title", "description", "date", "location", "type"]
+    },
+    "GalleryImage": {
+      "title": "Gallery Image",
+      "type": "object",
+      "description": "Represents an image in the gallery.",
+      "properties": {
+        "src": { "type": "string", "format": "uri" },
+        "alt": { "type": "string" },
+        "dataAiHint": { "type": "string" }
+      },
+      "required": ["src", "alt"]
+    },
+    "ContactInfo": {
+      "title": "Contact Information",
+      "type": "object",
+      "description": "Singleton document for site contact info.",
+      "properties": {
+        "generalphone": { "type": "string" },
+        "generalemail": { "type": "string", "format": "email" },
+        "address": { "type": "string" }
+      },
+      "required": ["generalphone", "generalemail", "address"]
+    },
+    "FooterContent": {
+      "title": "Footer Content",
+      "type": "object",
+      "description": "Singleton document for site footer content.",
+      "properties": {
+        "linkColumns": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "title": { "type": "string" },
+              "links": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "label": { "type": "string" },
+                    "url": { "type": "string" }
+                  },
+                  "required": ["label", "url"]
+                }
+              }
+            },
+            "required": ["title", "links"]
+          }
+        },
+        "socialLinks": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "platform": { "type": "string", "enum": ["Facebook", "Twitter", "LinkedIn", "Instagram", "Youtube"]},
+              "url": { "type": "string", "format": "uri" }
+            },
+            "required": ["platform", "url"]
+          }
+        },
+        "copyrightText": { "type": "string" }
+      },
+      "required": ["linkColumns", "socialLinks", "copyrightText"]
+    },
+    "Activity": {
+      "title": "Activity",
+      "type": "object",
+      "description": "Represents a college activity like NCC, NSS etc.",
+      "properties": {
+        "name": { "type": "string" },
+        "slug": { "type": "string" },
+        "shortdescription": { "type": "string" },
+        "longdescription": { "type": "string" },
+        "imageurl": { "type": "string", "format": "uri" },
+        "dataaihint": { "type": "string" },
+        "faculty_department": { "type": "string", "enum": ["ANO", "Instructors"]},
+        "focusareas": { "type": "array", "items": { "type": "string" } },
+        "courses": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": { "type": "string" },
+              "name": { "type": "string" },
+              "description": { "type": "string" }
+            },
+            "required": ["id", "name", "description"]
+          }
+        }
+      },
+      "required": ["name", "slug", "shortdescription", "longdescription"]
+    },
+    "Block": {
+      "title": "Block",
+      "type": "object",
+      "description": "Represents a content block on a page.",
+      "properties": {
+        "page_id": { "type": "string" },
+        "order_position": { "type": "number" },
+        "type": { "type": "string" },
+        "visible": { "type": "boolean" },
+        "data": { "type": "object" }
+      },
+      "required": ["page_id", "order_position", "type", "visible", "data"]
+    },
+    "Page": {
+        "title": "Page",
+        "type": "object",
+        "description": "Represents a website page.",
+        "properties": {
+            "title": { "type": "string" },
+            "slug": { "type": "string" },
+            "description": { "type": "string" },
+            "visible": { "type": "boolean" },
+            "order_position": { "type": "number" }
+        },
+        "required": ["title", "slug", "visible", "order_position"]
+    },
+    "Department": {
+      "title": "Department",
+      "type": "object",
+      "description": "Represents an academic department.",
+      "properties": {
+        "name": { "type": "string" },
+        "slug": { "type": "string" },
+        "shortdescription": { "type": "string" },
+        "longdescription": { "type": "string" },
+        "imageurl": { "type": "string", "format": "uri" },
+        "dataaihint": { "type": "string" },
+        "researchareas": { "type": "array", "items": { "type": "string" } },
+        "courses": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": { "type": "string" },
+              "name": { "type": "string" },
+              "description": { "type": "string" }
+            },
+            "required": ["id", "name", "description"]
+          }
+        }
+      },
+      "required": ["name", "slug", "shortdescription", "longdescription"]
+    }
+  },
+  "auth": {
+    "providers": ["anonymous"]
+  }
+}

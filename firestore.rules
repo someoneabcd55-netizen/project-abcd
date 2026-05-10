@@ -1,0 +1,60 @@
+
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function canWrite() {
+      return true;
+    }
+
+    match /announcements/{announcementId} {
+      allow read: if true;
+      allow write: if canWrite();
+    }
+
+    match /departments/{departmentId} {
+      allow read: if true;
+      allow write: if canWrite();
+    }
+
+    match /team/{memberId} {
+        allow read: if true;
+        allow write: if canWrite();
+    }
+    
+    match /activities/{activityId} {
+        allow read: if true;
+        allow write: if canWrite();
+    }
+
+    match /events/{eventId} {
+      allow read: if true;
+      allow write: if canWrite();
+    }
+
+    match /gallery/{imageId} {
+      allow read: if true;
+      allow write: if canWrite();
+    }
+    
+    match /contact_info/{docId} {
+        allow get: if true;
+        allow write: if canWrite();
+    }
+    
+    match /footer_content/{docId} {
+        allow get: if true;
+        allow write: if canWrite();
+    }
+
+     match /blocks/{blockId} {
+        allow read: if true;
+        allow write: if canWrite();
+    }
+
+    match /pages/{pageId} {
+      allow read: if true;
+      allow write: if canWrite();
+    }
+  }
+}

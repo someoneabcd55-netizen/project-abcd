@@ -1,0 +1,104 @@
+PROJECT: College website + admin CMS
+
+STACK
+- Next.js 15 App Router
+- React 18 + TypeScript
+- Tailwind CSS
+- Firebase Firestore
+- Firebase Admin SDK
+- Genkit/Gemini for AI
+
+PURPOSE
+Build a college website where admins can manage content without editing code.
+
+PUBLIC FEATURES
+- Home page
+- Dynamic slug pages
+- Departments
+- Activities
+- Faculty
+- Admissions
+- Events
+- Gallery
+- Contact
+- Global header/footer
+- Floating chatbot
+
+ADMIN FEATURES
+- Login with email + password
+- Cookie-based admin session
+- Dashboard tabs for homepage, pages, faculty, departments, activities, events, gallery, footer
+- CRUD for structured content
+- Drag/drop page ordering
+- Drag/drop block ordering
+- Toggle visibility
+
+CORE CONTENT MODEL
+1. pages
+- title
+- slug
+- description
+- visible
+- order_position
+
+2. blocks
+- page_id
+- type
+- order_position
+- visible
+- data
+
+3. departments
+4. activities
+5. team/faculty
+6. events
+7. gallery
+8. footer
+9. contact
+10. announcements
+
+PAGE BUILDER
+- Pages are rendered from Firestore content blocks
+- Supported block types: hero, text, image, announcements
+- Homepage uses blocks
+- Dynamic pages by slug use blocks
+
+IMPORTANT APP FLOW
+- `src/app/layout.tsx` loads header/footer and mounts chatbot
+- `src/app/page.tsx` renders home blocks
+- `src/app/[slug]/page.tsx` renders dynamic page blocks
+- `src/components/HomeRenderer.tsx` and `src/components/PageRenderer.tsx` map block type to component
+- `src/app/admin/page.tsx` is the main admin dashboard
+- `src/components/admin/admin-page-editor.tsx` handles block editing/reordering
+
+FIREBASE LAYER
+- `src/firebase/server-init.ts` initializes Firebase Admin
+- `src/firebase/services/pages.ts` handles pages CRUD + seeding + revalidation
+- `src/firebase/services/blocks.ts` handles block CRUD + revalidation
+- Other collections live in `src/firebase/services/*`
+
+AUTH
+- `src/app/login/actions.ts` checks allowed admin email + ADMIN_PASSWORD
+- `middleware.ts` protects `/admin`
+- Session is a cookie with value `1`
+
+AI FEATURES
+1. Chatbot
+- UI: `src/components/chat/site-chatbot.tsx`
+- Simple flow: `src/ai/flows/simple-gemini-chat.ts`
+- Rich site-aware flow exists in `src/ai/flows/site-chat-flow.ts`
+
+2. Program recommender
+- UI: `src/components/admissions/program-recommender.tsx`
+- Flow: `src/ai/flows/program-recommendation-tool.ts`
+
+ENV VARS NEEDED
+- ADMIN_PASSWORD
+- NEXT_PUBLIC_ADMIN_EMAIL or NEXT_PUBLIC_ADMIN_EMAILS
+- GEMINI_API_KEY
+- GEMINI_MODEL
+- FIREBASE_SERVICE_ACCOUNT_KEY
+- FIREBASE_STORAGE_BUCKET / NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET
+
+MINIMAL BUILD PROMPT
+Create a production-ready college website and admin CMS using Next.js 15, TypeScript, Tailwind, Firebase Firestore, Firebase Admin SDK, and Gemini/Genkit. Build a public website with pages for home, departments, activities, faculty, admissions, events, gallery, and contact. Build a protected admin dashboard that allows non-technical users to manage pages and modular content blocks, reorder content with drag and drop, manage faculty/departments/events/gallery/footer, and publish updates with cache revalidation. Add a floating AI chatbot and an admissions program recommender. Keep the UI responsive, professional, and CMS-driven.

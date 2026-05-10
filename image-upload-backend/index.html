@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Vault — Your Files</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0a0a0f;
+      --surface: #13131a;
+      --surface2: #1c1c26;
+      --accent: #7c6bff;
+      --accent2: #ff6b9d;
+      --text: #f0f0f8;
+      --muted: #6b6b80;
+      --success: #4ade80;
+      --danger: #f87171;
+      --border: rgba(255,255,255,0.06);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Background mesh */
+    body::before {
+      content: '';
+      position: fixed;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background:
+        radial-gradient(ellipse at 20% 20%, rgba(124,107,255,0.08) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 80%, rgba(255,107,157,0.06) 0%, transparent 50%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ─── AUTH PAGE ─── */
+    #authPage {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .auth-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 48px 40px;
+      width: 420px;
+      box-shadow: 0 40px 80px rgba(0,0,0,0.5);
+      animation: slideUp 0.6s ease;
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .auth-logo {
+      font-family: 'Syne', sans-serif;
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: -1px;
+      margin-bottom: 8px;
+    }
+
+    .auth-logo span { color: var(--accent); }
+
+    .auth-subtitle {
+      color: var(--muted);
+      font-size: 14px;
+      margin-bottom: 36px;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 4px;
+      background: var(--surface2);
+      border-radius: 12px;
+      padding: 4px;
+      margin-bottom: 28px;
+    }
+
+    .tab {
+      flex: 1;
+      padding: 10px;
+      text-align: center;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--muted);
+      transition: all 0.2s;
+      border: none;
+      background: none;
+    }
+
+    .tab.active {
+      background: var(--accent);
+      color: white;
+    }
+
+    .input-group {
+      margin-bottom: 16px;
+    }
+
+    .input-group label {
+      display: block;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
+    }
+
+    .input-group input {
+      width: 100%;
+      padding: 14px 16px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      color: var(--text);
+      font-size: 15px;
+      font-family: 'DM Sans', sans-serif;
+      transition: border-color 0.2s;
+      outline: none;
+    }
+
+    .input-group input:focus {
+      border-color: var(--accent);
+    }
+
+    .btn-primary {
+      width: 100%;
+      padding: 14px;
+      background: var(--accent);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 600;
+      font-family: 'DM Sans', sans-serif;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-top: 8px;
+    }
+
+    .btn-primary:hover {
+      background: #6a59e8;
+      transform: translateY(-1px);
+      box-shadow: 0 8px 24px rgba(124,107,255,0.3);
+    }
+
+    #authMsg {
+      margin-top: 16px;
+      font-size: 14px;
+      text-align: center;
+      min-height: 20px;
+    }
+
+    /* ─── MAIN APP ─── */
+    #appPage {
+      display: none;
+      min-height: 100vh;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Navbar */
+    .navbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 40px;
+      border-bottom: 1px solid var(--border);
+      background: rgba(10,10,15,0.8);
+      backdrop-filter: blur(20px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .nav-logo {
+      font-family: 'Syne', sans-serif;
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: -1px;
+    }
+
+    .nav-logo span { color: var(--accent); }
+
+    .nav-actions {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .btn-upload {
+      padding: 10px 20px;
+      background: var(--accent);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-upload:hover {
+      background: #6a59e8;
+      transform: translateY(-1px);
+    }
+
+    .btn-logout {
+      padding: 10px 16px;
+      background: transparent;
+      color: var(--muted);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font-size: 14px;
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      transition: all 0.2s;
+    }
+
+    .btn-logout:hover {
+      color: var(--danger);
+      border-color: var(--danger);
+    }
+
+    /* Main content */
+    .main {
+      padding: 40px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .page-header {
+      margin-bottom: 32px;
+    }
+
+    .page-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 32px;
+      font-weight: 800;
+      letter-spacing: -1px;
+      margin-bottom: 6px;
+    }
+
+    .page-desc {
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    /* Filter tabs */
+    .filter-bar {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 32px;
+      flex-wrap: wrap;
+    }
+
+    .filter-btn {
+      padding: 8px 18px;
+      border-radius: 100px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      transition: all 0.2s;
+    }
+
+    .filter-btn.active, .filter-btn:hover {
+      background: var(--accent);
+      color: white;
+      border-color: var(--accent);
+    }
+
+    /* Gallery grid */
+    .gallery {
+      columns: 4;
+      column-gap: 16px;
+    }
+
+    @media (max-width: 1200px) { .gallery { columns: 3; } }
+    @media (max-width: 800px) { .gallery { columns: 2; } }
+    @media (max-width: 500px) { .gallery { columns: 1; } }
+
+    .gallery-item {
+      break-inside: avoid;
+      margin-bottom: 16px;
+      border-radius: 16px;
+      overflow: hidden;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      position: relative;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+      animation: fadeIn 0.4s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .gallery-item:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+    }
+
+    .gallery-item img {
+      width: 100%;
+      display: block;
+    }
+
+    .gallery-item video {
+      width: 100%;
+      display: block;
+      max-height: 300px;
+      object-fit: cover;
+    }
+
+    .file-card {
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .file-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      flex-shrink: 0;
+    }
+
+    .file-icon.pdf { background: rgba(248,113,113,0.15); }
+    .file-icon.video { background: rgba(124,107,255,0.15); }
+    .file-icon.model { background: rgba(74,222,128,0.15); }
+    .file-icon.other { background: rgba(251,191,36,0.15); }
+
+    .file-info { flex: 1; min-width: 0; }
+
+    .file-name {
+      font-size: 14px;
+      font-weight: 500;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-bottom: 4px;
+    }
+
+    .file-type {
+      font-size: 12px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .item-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+
+    .gallery-item:hover .item-overlay {
+      opacity: 1;
+    }
+
+    .overlay-btn {
+      padding: 10px 20px;
+      background: white;
+      color: #0a0a0f;
+      border: none;
+      border-radius: 100px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    /* Empty state */
+    .empty-state {
+      text-align: center;
+      padding: 80px 20px;
+      color: var(--muted);
+    }
+
+    .empty-icon {
+      font-size: 56px;
+      margin-bottom: 16px;
+    }
+
+    .empty-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+
+    /* Upload Modal */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.8);
+      backdrop-filter: blur(8px);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-overlay.open {
+      display: flex;
+    }
+
+    .modal {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 40px;
+      width: 480px;
+      box-shadow: 0 40px 80px rgba(0,0,0,0.6);
+      animation: slideUp 0.3s ease;
+    }
+
+    .modal-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 24px;
+    }
+
+    .drop-zone {
+      border: 2px dashed var(--border);
+      border-radius: 16px;
+      padding: 40px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-bottom: 20px;
+    }
+
+    .drop-zone:hover, .drop-zone.dragover {
+      border-color: var(--accent);
+      background: rgba(124,107,255,0.05);
+    }
+
+    .drop-zone input { display: none; }
+
+    .drop-icon { font-size: 36px; margin-bottom: 12px; }
+
+    .drop-text {
+      font-size: 15px;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    .drop-text strong { color: var(--accent); cursor: pointer; }
+
+    .drop-subtext { font-size: 12px; color: var(--muted); }
+
+    .selected-file {
+      background: var(--surface2);
+      border-radius: 12px;
+      padding: 12px 16px;
+      font-size: 14px;
+      color: var(--text);
+      margin-bottom: 16px;
+      display: none;
+    }
+
+    .preview-img {
+      width: 100%;
+      max-height: 200px;
+      object-fit: cover;
+      border-radius: 12px;
+      margin-bottom: 16px;
+      display: none;
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 12px;
+    }
+
+    .btn-cancel {
+      flex: 1;
+      padding: 14px;
+      background: transparent;
+      color: var(--muted);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      font-size: 15px;
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      transition: all 0.2s;
+    }
+
+    .btn-cancel:hover { border-color: var(--muted); color: var(--text); }
+
+    #uploadMsg {
+      font-size: 13px;
+      text-align: center;
+      margin-top: 12px;
+      min-height: 18px;
+    }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 32px;
+      right: 32px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px 20px;
+      font-size: 14px;
+      font-weight: 500;
+      z-index: 9999;
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.3s ease;
+      max-width: 320px;
+    }
+
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .toast.success { border-color: var(--success); color: var(--success); }
+    .toast.error { border-color: var(--danger); color: var(--danger); }
+
+    /* Loading */
+    .loading {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 60px;
+      color: var(--muted);
+      gap: 12px;
+    }
+
+    .spinner {
+      width: 20px;
+      height: 20px;
+      border: 2px solid var(--border);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+  </style>
+</head>
+<body>
+
+<!-- AUTH PAGE -->
+<div id="authPage">
+  <div class="auth-card">
+    <div class="auth-logo">vault<span>.</span></div>
+    <div class="auth-subtitle">Your personal media vault — secure & private</div>
+
+    <div class="tabs">
+      <button class="tab active" onclick="switchTab('login')">Login</button>
+      <button class="tab" onclick="switchTab('register')">Register</button>
+    </div>
+
+    <div class="input-group">
+      <label>Email</label>
+      <input type="email" id="authEmail" placeholder="you@example.com" />
+    </div>
+    <div class="input-group">
+      <label>Password</label>
+      <input type="password" id="authPassword" placeholder="••••••••" />
+    </div>
+
+    <button class="btn-primary" id="authBtn" onclick="handleAuth()">Login</button>
+    <div id="authMsg"></div>
+  </div>
+</div>
+
+<!-- MAIN APP PAGE -->
+<div id="appPage">
+  <nav class="navbar">
+    <div class="nav-logo">vault<span>.</span></div>
+    <div class="nav-actions">
+      <button class="btn-upload" onclick="openModal()">
+        <span>+</span> Upload
+      </button>
+      <button class="btn-logout" onclick="logout()">Logout</button>
+    </div>
+  </nav>
+
+  <div class="main">
+    <div class="page-header">
+      <div class="page-title">My Files</div>
+      <div class="page-desc">All your uploaded media in one place</div>
+    </div>
+
+    <div class="filter-bar">
+      <button class="filter-btn active" onclick="filterFiles('all', this)">All</button>
+      <button class="filter-btn" onclick="filterFiles('image', this)">🖼 Images</button>
+      <button class="filter-btn" onclick="filterFiles('video', this)">🎬 Videos</button>
+      <button class="filter-btn" onclick="filterFiles('pdf', this)">📄 PDFs</button>
+      <button class="filter-btn" onclick="filterFiles('raw', this)">📦 3D / Other</button>
+    </div>
+
+    <div id="galleryContainer">
+      <div class="loading"><div class="spinner"></div> Loading your files...</div>
+    </div>
+  </div>
+</div>
+
+<!-- UPLOAD MODAL -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <div class="modal-title">Upload a file</div>
+
+    <div class="drop-zone" id="dropZone" onclick="document.getElementById('fileInput').click()" ondragover="dragOver(event)" ondragleave="dragLeave(event)" ondrop="dropFile(event)">
+      <input type="file" id="fileInput" accept="image/*,video/*,.pdf,.glb,.gltf" onchange="fileSelected(event)" />
+      <div class="drop-icon">☁️</div>
+      <div class="drop-text"><strong>Click to browse</strong> or drag & drop</div>
+      <div class="drop-subtext">Images, Videos, PDFs, 3D files supported</div>
+    </div>
+
+    <img class="preview-img" id="previewImg" />
+    <div class="selected-file" id="selectedFile"></div>
+
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+      <button class="btn-primary" style="margin-top:0" onclick="uploadFile()">Upload</button>
+    </div>
+
+    <div id="uploadMsg"></div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+  const API = "http://localhost:5000";
+  let token = localStorage.getItem("token");
+  let selectedFile = null;
+  let allFiles = [];
+  let currentTab = "login";
+
+  // Init
+  if (token) showApp();
+
+  function switchTab(tab) {
+    currentTab = tab;
+    document.querySelectorAll('.tab').forEach((t, i) => {
+      t.classList.toggle('active', (tab === 'login' && i === 0) || (tab === 'register' && i === 1));
+    });
+    document.getElementById('authBtn').innerText = tab === 'login' ? 'Login' : 'Create Account';
+  }
+
+  async function handleAuth() {
+    const email = document.getElementById('authEmail').value;
+    const password = document.getElementById('authPassword').value;
+    const msg = document.getElementById('authMsg');
+
+    if (!email || !password) { msg.style.color = 'var(--danger)'; msg.innerText = 'Please fill in all fields'; return; }
+
+    const endpoint = currentTab === 'login' ? '/login' : '/register';
+    msg.style.color = 'var(--muted)'; msg.innerText = 'Please wait...';
+
+    try {
+      const res = await fetch(API + endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password })
+      });
+      const data = await res.json();
+
+      if (currentTab === 'register') {
+        if (data.message) {
+          msg.style.color = 'var(--success)'; msg.innerText = '✅ Registered! Now login.';
+          switchTab('login');
+        } else { msg.style.color = 'var(--danger)'; msg.innerText = data.error; }
+      } else {
+        if (data.token) {
+          token = data.token;
+          localStorage.setItem('token', token);
+          showApp();
+        } else { msg.style.color = 'var(--danger)'; msg.innerText = data.error; }
+      }
+    } catch (e) {
+      msg.style.color = 'var(--danger)'; msg.innerText = 'Cannot connect to server. Is it running?';
+    }
+  }
+
+  function showApp() {
+    document.getElementById('authPage').style.display = 'none';
+    document.getElementById('appPage').style.display = 'block';
+    loadFiles();
+  }
+
+  function logout() {
+    localStorage.removeItem('token');
+    token = null;
+    document.getElementById('authPage').style.display = 'flex';
+    document.getElementById('appPage').style.display = 'none';
+  }
+
+  async function loadFiles() {
+    const container = document.getElementById('galleryContainer');
+    container.innerHTML = '<div class="loading"><div class="spinner"></div> Loading your files...</div>';
+    try {
+      const res = await fetch(API + '/myfiles', { headers: { 'Authorization': 'Bearer ' + token } });
+      allFiles = await res.json();
+      renderGallery(allFiles);
+    } catch (e) {
+      container.innerHTML = '<div class="empty-state"><div class="empty-icon">⚠️</div><div class="empty-title">Could not load files</div><p>Make sure your server is running</p></div>';
+    }
+  }
+
+  function filterFiles(type, btn) {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    if (type === 'all') { renderGallery(allFiles); return; }
+    const filtered = allFiles.filter(f => {
+      if (type === 'image') return f.fileType === 'image';
+      if (type === 'video') return f.fileType === 'video';
+      if (type === 'pdf') return f.fileName?.toLowerCase().endsWith('.pdf');
+      if (type === 'raw') return f.fileType === 'raw' || f.fileName?.match(/\.(glb|gltf)$/i);
+      return true;
+    });
+    renderGallery(filtered);
+  }
+
+  function renderGallery(files) {
+    const container = document.getElementById('galleryContainer');
+    if (!files.length) {
+      container.innerHTML = `<div class="empty-state"><div class="empty-icon">📂</div><div class="empty-title">No files yet</div><p>Upload something to get started!</p></div>`;
+      return;
+    }
+    container.innerHTML = '<div class="gallery" id="gallery"></div>';
+    const gallery = document.getElementById('gallery');
+    files.forEach(f => {
+      const item = document.createElement('div');
+      item.className = 'gallery-item';
+      if (f.fileType === 'image') {
+        item.innerHTML = `
+          <img src="${f.fileUrl}" loading="lazy" alt="${f.fileName}" />
+          <div class="item-overlay">
+            <a class="overlay-btn" href="${f.fileUrl}" target="_blank">View Full</a>
+          </div>`;
+      } else if (f.fileType === 'video') {
+        item.innerHTML = `
+          <video src="${f.fileUrl}" muted loop onmouseenter="this.play()" onmouseleave="this.pause()"></video>
+          <div class="item-overlay">
+            <a class="overlay-btn" href="${f.fileUrl}" target="_blank">▶ Play</a>
+          </div>`;
+      } else {
+        const isPdf = f.fileName?.toLowerCase().endsWith('.pdf');
+        const is3d = f.fileName?.match(/\.(glb|gltf)$/i);
+        const icon = isPdf ? '📄' : is3d ? '🧊' : '📦';
+        const cls = isPdf ? 'pdf' : is3d ? 'model' : 'other';
+        item.innerHTML = `
+          <div class="file-card">
+            <div class="file-icon ${cls}">${icon}</div>
+            <div class="file-info">
+              <div class="file-name">${f.fileName || 'Unnamed file'}</div>
+              <div class="file-type">${f.fileType || 'file'}</div>
+            </div>
+          </div>
+          <div class="item-overlay">
+            <a class="overlay-btn" href="${f.fileUrl}" target="_blank">Open</a>
+          </div>`;
+      }
+      gallery.appendChild(item);
+    });
+  }
+
+  // Modal
+  function openModal() {
+    document.getElementById('modalOverlay').classList.add('open');
+    selectedFile = null;
+    document.getElementById('previewImg').style.display = 'none';
+    document.getElementById('selectedFile').style.display = 'none';
+    document.getElementById('uploadMsg').innerText = '';
+    document.getElementById('fileInput').value = '';
+  }
+
+  function closeModal() {
+    document.getElementById('modalOverlay').classList.remove('open');
+  }
+
+  function dragOver(e) {
+    e.preventDefault();
+    document.getElementById('dropZone').classList.add('dragover');
+  }
+
+  function dragLeave() {
+    document.getElementById('dropZone').classList.remove('dragover');
+  }
+
+  function dropFile(e) {
+    e.preventDefault();
+    dragLeave();
+    const file = e.dataTransfer.files[0];
+    if (file) processFile(file);
+  }
+
+  function fileSelected(e) {
+    processFile(e.target.files[0]);
+  }
+
+  function processFile(file) {
+    selectedFile = file;
+    const sf = document.getElementById('selectedFile');
+    sf.innerText = '📎 ' + file.name;
+    sf.style.display = 'block';
+    if (file.type.startsWith('image/')) {
+      const img = document.getElementById('previewImg');
+      img.src = URL.createObjectURL(file);
+      img.style.display = 'block';
+    } else {
+      document.getElementById('previewImg').style.display = 'none';
+    }
+  }
+
+  async function uploadFile() {
+    if (!selectedFile) { showMsg('uploadMsg', 'Please select a file first', 'var(--danger)'); return; }
+    showMsg('uploadMsg', 'Uploading...', 'var(--muted)');
+    const formData = new FormData();
+    formData.append('file', selectedFile);
+    try {
+      const res = await fetch(API + '/upload', {
+        method: 'POST',
+        headers: { 'Authorization': 'Bearer ' + token },
+        body: formData
+      });
+      const data = await res.json();
+      if (data.url) {
+        closeModal();
+        showToast('✅ File uploaded successfully!', 'success');
+        loadFiles();
+      } else {
+        showMsg('uploadMsg', data.error || 'Upload failed', 'var(--danger)');
+      }
+    } catch (e) {
+      showMsg('uploadMsg', 'Upload failed. Check server.', 'var(--danger)');
+    }
+  }
+
+  function showMsg(id, text, color) {
+    const el = document.getElementById(id);
+    el.style.color = color;
+    el.innerText = text;
+  }
+
+  function showToast(msg, type = 'success') {
+    const t = document.getElementById('toast');
+    t.className = 'toast ' + type;
+    t.innerText = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 3000);
+  }
+
+  // Close modal on overlay click
+  document.getElementById('modalOverlay').addEventListener('click', function(e) {
+    if (e.target === this) closeModal();
+  });
+
+  // Enter key on auth
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Enter' && document.getElementById('authPage').style.display !== 'none') handleAuth();
+  });
+</script>
+</body>
+</html>
