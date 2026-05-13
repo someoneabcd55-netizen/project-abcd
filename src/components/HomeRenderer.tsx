@@ -1,10 +1,13 @@
 'use client';
 
+import React, { useEffect } from 'react';
 import dynamic from 'next/dynamic';
 
 // Dynamic imports for all blocks to avoid circular dependencies and improve performance
 const componentMap: Record<string, any> = {
+  // Content Blocks
   hero: dynamic(() => import('./blocks/HeroBlock').then(m => m.HeroBlock)),
+  'hero-block': dynamic(() => import('./blocks/HeroBlock').then(m => m.HeroBlock)),
   heading: dynamic(() => import('./blocks/Heading').then(m => m.Heading)),
   paragraph: dynamic(() => import('./blocks/Paragraph').then(m => m.Paragraph)),
   text: dynamic(() => import('./blocks/Paragraph').then(m => m.Paragraph)),
@@ -35,11 +38,14 @@ const componentMap: Record<string, any> = {
   container: dynamic(() => import('./blocks/Container').then(m => m.Container)),
   grid: dynamic(() => import('./blocks/Grid').then(m => m.Grid)),
   columns: dynamic(() => import('./blocks/Columns').then(m => m.Columns)),
+  column: dynamic(() => import('./blocks/Columns').then(m => m.Columns)),
   tabs: dynamic(() => import('./blocks/Tabs').then(m => m.Tabs)),
   accordion: dynamic(() => import('./blocks/AccordionLayout').then(m => m.AccordionLayout)),
   carousel: dynamic(() => import('./blocks/Carousel').then(m => m.Carousel)),
   section: dynamic(() => import('./blocks/SectionWrapper').then(m => m.SectionWrapper)),
+  'section-wrapper': dynamic(() => import('./blocks/SectionWrapper').then(m => m.SectionWrapper)),
   split: dynamic(() => import('./blocks/SplitLayout').then(m => m.SplitLayout)),
+  'split-layout': dynamic(() => import('./blocks/SplitLayout').then(m => m.SplitLayout)),
 };
 
 export interface BlockData {
@@ -50,6 +56,13 @@ export interface BlockData {
 }
 
 export default function HomeRenderer({ blocks, theme }: { blocks: BlockData[], theme?: string }) {
+  // Debug log to see exactly what block types are coming from the database
+  useEffect(() => {
+    if (blocks && blocks.length > 0) {
+      console.log('Renderer [Blocks Data]:', blocks.map(b => ({ id: b.id, type: b.type, visible: b.visible })));
+    }
+  }, [blocks]);
+
   if (!blocks || blocks.length === 0) {
     return null;
   }
@@ -60,7 +73,7 @@ export default function HomeRenderer({ blocks, theme }: { blocks: BlockData[], t
         if (!b.visible) return null;
         
         // Normalize the block type to handle casing or whitespace issues from the database
-        const normalizedType = b.type.toLowerCase().trim();
+        const normalizedType = b.type?.toLowerCase()?.trim();
         const Component = componentMap[normalizedType];
         
         if (!Component) {
