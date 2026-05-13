@@ -59,14 +59,21 @@ export default function HomeRenderer({ blocks, theme }: { blocks: BlockData[], t
       {blocks.map((b) => {
         if (!b.visible) return null;
         
-        const Component = componentMap[b.type];
+        // Normalize the block type to handle casing or whitespace issues from the database
+        const normalizedType = b.type.toLowerCase().trim();
+        const Component = componentMap[normalizedType];
         
         if (!Component) {
-            console.warn(`No component found for block type: ${b.type}`);
+            console.warn(`[HomeRenderer] Unknown block type: "${b.type}" (Normalized: "${normalizedType}")`);
             return (
-                <div key={b.id} className="container mx-auto my-4 p-4 border border-dashed border-red-400">
-                    <p className="text-red-500 font-bold">Unknown block type: {b.type}</p>
-                    <pre className="text-xs bg-gray-100 p-2 rounded-md mt-2">{JSON.stringify(b.data, null, 2)}</pre>
+                <div key={b.id} className="container mx-auto my-8 p-6 border-2 border-dashed border-red-200 rounded-2xl bg-red-50/30">
+                    <div className="flex items-center gap-3 mb-4">
+                        <div className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
+                        <p className="text-red-600 font-bold uppercase tracking-widest text-[10px]">Unknown block type: {b.type}</p>
+                    </div>
+                    <pre className="text-[10px] font-mono text-gray-500 bg-white/80 p-4 rounded-xl border border-red-100 overflow-auto max-h-40">
+                        {JSON.stringify(b.data, null, 2)}
+                    </pre>
                 </div>
             );
         }
