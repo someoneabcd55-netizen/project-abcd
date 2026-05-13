@@ -5,7 +5,6 @@ import { cn } from '@/lib/utils';
 import { Toaster } from '@/components/ui/toaster';
 import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
-import { SiteChatbot } from '@/components/chat/site-chatbot';
 import { getPagesPublic } from '@/firebase/services/pages';
 import { getFooterContent } from '@/firebase/services/footer';
 import { getAppearanceSettings } from '@/firebase/services/settings';
@@ -50,7 +49,6 @@ export default async function RootLayout({
           <Header pages={pages} theme={themeClass} />
           <main className="flex-1">{children}</main>
           <Footer content={footerContent} theme={themeClass} />
-          <SiteChatbot />
         </div>
         <Toaster />
       </body>
