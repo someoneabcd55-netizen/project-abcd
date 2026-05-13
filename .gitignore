@@ -39,5 +39,7 @@ next-env.d.ts
 
 # Firebase
 serviceAccountKey.json
-firebase-adminsdk*.json
+*firebase-adminsdk*.json
 sa-one-line.json
+ncctroop-*.json
+*.json.secret
