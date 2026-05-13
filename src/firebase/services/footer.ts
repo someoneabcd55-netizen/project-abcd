@@ -62,3 +62,4 @@ export async function updateFooterContent(payload: FooterContent) {
     revalidatePath('/', 'layout');
     revalidatePath('/admin');
 }
+

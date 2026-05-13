@@ -10,3 +10,4 @@ export const firebaseConfig: FirebaseOptions = {
   authDomain: 'modern-school.firebaseapp.com',
   messagingSenderId: '856863616852',
 };
+

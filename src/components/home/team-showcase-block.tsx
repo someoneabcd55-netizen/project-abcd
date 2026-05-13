@@ -187,3 +187,4 @@ export function TeamShowcaseBlock({ title, subtitle, items, theme }: TeamShowcas
     </section>
   );
 }
+

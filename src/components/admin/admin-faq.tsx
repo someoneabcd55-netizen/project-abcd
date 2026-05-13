@@ -121,3 +121,4 @@ export function AdminFAQ({ block, open, onOpenChange, onUpdate }: { block: Block
         </Dialog>
     );
 }
+

@@ -6,7 +6,7 @@ import { motion } from 'framer-motion';
 import { Play, Search, Clock } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Input } from '@/components/ui/input';
-import { GalleryLightbox } from './GalleryLightbox';
+import { GlimpsesLightbox } from './GlimpsesLightbox';
 
 interface VideoItem {
   videoUrl: string;
@@ -17,7 +17,7 @@ interface VideoItem {
   duration?: string;
 }
 
-interface VideoGalleryProps {
+interface VideoGlimpsesProps {
   eyebrowLabel?: string;
   title: string;
   subtitle?: string;
@@ -29,7 +29,7 @@ interface VideoGalleryProps {
   items: VideoItem[];
 }
 
-export function VideoGallery({
+export function VideoGlimpses({
   eyebrowLabel,
   title,
   subtitle,
@@ -38,7 +38,7 @@ export function VideoGallery({
   filterOptions = [],
   showSearch = false,
   items = []
-}: VideoGalleryProps) {
+}: VideoGlimpsesProps) {
   const [activeFilter, setActiveFilter] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedVideoIndex, setSelectedVideoIndex] = useState<number | null>(null);
@@ -141,7 +141,7 @@ export function VideoGallery({
         </div>
 
         {selectedVideoIndex !== null && (
-          <GalleryLightbox
+          <GlimpsesLightbox
             isOpen={selectedVideoIndex !== null}
             onClose={() => setSelectedVideoIndex(null)}
             items={filteredItems.map(i => ({
@@ -157,3 +157,4 @@ export function VideoGallery({
     </section>
   );
 }
+

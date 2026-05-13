@@ -81,3 +81,4 @@ export async function deleteTeamMember(id: string) {
     revalidatePath('/faculty');
     revalidatePath('/admin');
 }
+

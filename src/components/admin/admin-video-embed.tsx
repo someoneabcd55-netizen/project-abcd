@@ -99,3 +99,4 @@ export function AdminVideoEmbed({ block, open, onOpenChange, onUpdate }: { block
         </Dialog>
     );
 }
+

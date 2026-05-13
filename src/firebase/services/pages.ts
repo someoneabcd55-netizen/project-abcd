@@ -19,7 +19,7 @@ const EXPECTED_PAGES = [
     { slug: 'faculty', title: 'Faculty', order: 3, visible: true },
     { slug: 'admissions', title: 'Admissions', order: 4, visible: true },
     { slug: 'events', title: 'Events', order: 6, visible: true },
-    { slug: 'gallery', title: 'Gallery', order: 7, visible: true },
+    { slug: 'Glimpses', title: 'Glimpses', order: 7, visible: true },
     { slug: 'contact', title: 'Contact', order: 8, visible: true },
 ]
 
@@ -233,3 +233,4 @@ export async function reorderPages(pages: Array<{ id: string; order_position: nu
   revalidatePath('/admin');
   revalidatePath('/', 'layout');
 }
+

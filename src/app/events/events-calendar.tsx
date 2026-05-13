@@ -300,3 +300,4 @@ export function EventsCalendar({ allEvents: events, theme }: EventsCalendarProps
         </div>
     );
 }
+

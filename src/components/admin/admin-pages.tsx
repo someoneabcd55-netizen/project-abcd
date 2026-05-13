@@ -82,7 +82,7 @@ function SortablePageItem({ page, onUpdate }: { page: Page; onUpdate: () => void
     }
   };
   
-  const PROTECTED_SLUGS = ['home', 'departments', 'activities', 'faculty', 'admissions', 'gallery', 'events', 'contact'];
+  const PROTECTED_SLUGS = ['home', 'departments', 'activities', 'faculty', 'admissions', 'Glimpses', 'events', 'contact'];
   const isContentManagedExternally = PROTECTED_SLUGS.includes(page.slug);
   const isDeleteDisabled = PROTECTED_SLUGS.includes(page.slug);
 
@@ -294,3 +294,4 @@ export function AdminPages() {
     </>
   );
 }
+

@@ -98,3 +98,4 @@ export function AdminMapLocation({ block, open, onOpenChange, onUpdate }: { bloc
         </Dialog>
     );
 }
+

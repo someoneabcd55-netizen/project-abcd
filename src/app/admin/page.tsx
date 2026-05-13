@@ -7,8 +7,8 @@ import { AdminFooter } from '@/components/admin/admin-footer';
 import { AdminHomepage } from '@/components/admin/admin-homepage';
 import { AdminDepartments } from '@/components/admin/admin-departments';
 import { AdminActivities } from '@/components/admin/admin-activities';
-import { AdminGallery } from '@/components/admin/admin-gallery';
-import { AdminGalleryBlocks } from '@/components/admin/admin-gallery-blocks';
+import { AdminGlimpses } from '@/components/admin/admin-Glimpses';
+import { AdminGlimpsesBlocks } from '@/components/admin/admin-Glimpses-blocks';
 import { AdminEvents } from '@/components/admin/admin-events';
 import { AdminTeam } from '@/components/admin/admin-team';
 import { AdminFaculty } from '@/components/admin/admin-faculty';
@@ -20,8 +20,8 @@ import { useRouter } from 'next/navigation';
 export default function AdminDashboardPage() {
   const router = useRouter();
 
-  const handleGalleryUpdate = () => {
-    // A simple way to trigger a re-fetch on the gallery page is to refresh.
+  const handleGlimpsesUpdate = () => {
+    // A simple way to trigger a re-fetch on the Glimpses page is to refresh.
     // This is useful if the public page uses static generation.
     router.refresh();
   };
@@ -65,9 +65,9 @@ export default function AdminDashboardPage() {
             <Calendar className="mr-2 h-4 w-4" />
             Events
           </TabsTrigger>
-           <TabsTrigger value="gallery">
+           <TabsTrigger value="Glimpses">
             <ImageIcon className="mr-2 h-4 w-4" />
-            Gallery
+            Glimpses
           </TabsTrigger>
           <TabsTrigger value="users">
             <Users className="mr-2 h-4 w-4" />
@@ -149,15 +149,15 @@ export default function AdminDashboardPage() {
                 <AdminEvents />
             </Card>
         </TabsContent>
-         <TabsContent value="gallery">
+         <TabsContent value="Glimpses">
             <Card>
                 <CardHeader>
-                    <CardTitle>Gallery Page Layout</CardTitle>
+                    <CardTitle>Glimpses Page Layout</CardTitle>
                     <CardDescription>
                         Create creative layouts with Mosaic, Bento, and Filterable Galleries.
                     </CardDescription>
                 </CardHeader>
-                <AdminGalleryBlocks />
+                <AdminGlimpsesBlocks />
             </Card>
         </TabsContent>
         <TabsContent value="users">
@@ -197,3 +197,4 @@ export default function AdminDashboardPage() {
     </div>
   );
 }
+

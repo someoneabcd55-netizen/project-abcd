@@ -126,3 +126,4 @@ export function TimelineBlock({ title, subtitle, items, theme }: TimelineBlockPr
     </section>
   );
 }
+

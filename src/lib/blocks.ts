@@ -143,7 +143,7 @@ export const cardsGridBlockSchema = z.object({
   animation: z.enum(['none', 'staggered', 'fadeIn']).default('staggered'),
 });
 
-export const galleryBlockSchema = z.object({
+export const GlimpsesBlockSchema = z.object({
   eyebrowLabel: z.string().optional(),
   title: z.string().min(1, 'Title is required'),
   subtitle: z.string().optional(),
@@ -361,7 +361,7 @@ export const imageLayoutBlockSchema = z.object({
   })).min(1),
 });
 
-export const masonryGalleryBlockSchema = z.object({
+export const masonryGlimpsesBlockSchema = z.object({
   eyebrowLabel: z.string().optional(),
   title: z.string().min(1, 'Title is required'),
   subtitle: z.string().optional(),
@@ -381,7 +381,7 @@ export const masonryGalleryBlockSchema = z.object({
   })).default([]),
 });
 
-export const featuredGalleryBlockSchema = z.object({
+export const featuredGlimpsesBlockSchema = z.object({
   eyebrowLabel: z.string().optional(),
   title: z.string().min(1, 'Title is required'),
   subtitle: z.string().optional(),
@@ -408,7 +408,7 @@ export const featuredGalleryBlockSchema = z.object({
   mediaType: z.enum(['images', 'videos', 'mixed']).default('images'),
 });
 
-export const equalGridGalleryBlockSchema = z.object({
+export const equalGridGlimpsesBlockSchema = z.object({
   eyebrowLabel: z.string().optional(),
   title: z.string().min(1, 'Title is required'),
   subtitle: z.string().optional(),
@@ -432,7 +432,7 @@ export const equalGridGalleryBlockSchema = z.object({
   })).default([]),
 });
 
-export const horizontalScrollGalleryBlockSchema = z.object({
+export const horizontalScrollGlimpsesBlockSchema = z.object({
   eyebrowLabel: z.string().optional(),
   title: z.string().min(1, 'Title is required'),
   subtitle: z.string().optional(),
@@ -478,7 +478,7 @@ export const fullscreenSlideshowBlockSchema = z.object({
   })).default([]),
 });
 
-export const videoGalleryBlockSchema = z.object({
+export const videoGlimpsesBlockSchema = z.object({
   eyebrowLabel: z.string().optional(),
   title: z.string().min(1, 'Title is required'),
   subtitle: z.string().optional(),
@@ -508,7 +508,7 @@ export const blockSchemas: Record<string, z.ZodObject<any>> = {
   faq: faqBlockSchema,
   timeline: timelineBlockSchema,
   cards: cardsGridBlockSchema,
-  gallery: galleryBlockSchema,
+  Glimpses: GlimpsesBlockSchema,
   table: tableBlockSchema,
   stats: statsCounterBlockSchema,
   container: containerBlockSchema,
@@ -526,10 +526,11 @@ export const blockSchemas: Record<string, z.ZodObject<any>> = {
   'video-embed': videoEmbedBlockSchema,
   'map-location': mapLocationBlockSchema,
   'image-layout': imageLayoutBlockSchema,
-  'masonry-gallery': masonryGalleryBlockSchema,
-  'featured-gallery': featuredGalleryBlockSchema,
-  'equal-grid-gallery': equalGridGalleryBlockSchema,
-  'horizontal-scroll-gallery': horizontalScrollGalleryBlockSchema,
+  'masonry-Glimpses': masonryGlimpsesBlockSchema,
+  'featured-Glimpses': featuredGlimpsesBlockSchema,
+  'equal-grid-Glimpses': equalGridGlimpsesBlockSchema,
+  'horizontal-scroll-Glimpses': horizontalScrollGlimpsesBlockSchema,
   'fullscreen-slideshow': fullscreenSlideshowBlockSchema,
-  'video-gallery': videoGalleryBlockSchema,
+  'video-Glimpses': videoGlimpsesBlockSchema,
 };
+

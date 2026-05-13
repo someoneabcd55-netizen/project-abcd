@@ -172,3 +172,4 @@ export function Header({ pages, theme }: HeaderProps) {
     </header>
   );
 }
+

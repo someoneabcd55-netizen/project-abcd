@@ -28,7 +28,7 @@ function signParams(params: Record<string, string | number>, apiSecret: string):
     .digest('hex');
 }
 
-export async function uploadImageToCloudinary(file: File, folder = 'college-portal/gallery') {
+export async function uploadImageToCloudinary(file: File, folder = 'college-portal/Glimpses') {
   const { cloudName, apiKey, apiSecret } = getCloudinaryConfig();
   const timestamp = Math.floor(Date.now() / 1000);
   const signature = signParams({ folder, timestamp }, apiSecret);
@@ -76,3 +76,4 @@ export async function deleteImageFromCloudinary(publicId: string) {
     throw new Error(await response.text());
   }
 }
+

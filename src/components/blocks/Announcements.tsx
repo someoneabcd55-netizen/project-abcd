@@ -68,3 +68,4 @@ export function AnnouncementsBlock({
     </section>
   );
 }
+

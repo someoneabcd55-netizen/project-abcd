@@ -29,3 +29,4 @@ export function useFooterContent() {
 
   return { content, isLoading };
 }
+

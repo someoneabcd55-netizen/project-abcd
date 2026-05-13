@@ -6,7 +6,7 @@ import { motion } from 'framer-motion';
 import { ChevronLeft, ChevronRight, Play } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
-import { GalleryLightbox } from './GalleryLightbox';
+import { GlimpsesLightbox } from './GlimpsesLightbox';
 
 interface ScrollItem {
   mediaUrl: string;
@@ -17,7 +17,7 @@ interface ScrollItem {
   caption?: string;
 }
 
-interface HorizontalScrollGalleryProps {
+interface HorizontalScrollGlimpsesProps {
   eyebrowLabel?: string;
   title: string;
   subtitle?: string;
@@ -30,7 +30,7 @@ interface HorizontalScrollGalleryProps {
   items: ScrollItem[];
 }
 
-export function HorizontalScrollGallery({
+export function HorizontalScrollGlimpses({
   eyebrowLabel,
   title,
   subtitle,
@@ -41,7 +41,7 @@ export function HorizontalScrollGallery({
   showArrows = true,
   lightbox = true,
   items = []
-}: HorizontalScrollGalleryProps) {
+}: HorizontalScrollGlimpsesProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [selectedItemIndex, setSelectedItemIndex] = useState<number | null>(null);
   const [isPaused, setIsPaused] = useState(false);
@@ -128,7 +128,7 @@ export function HorizontalScrollGallery({
       </div>
 
       {selectedItemIndex !== null && (
-        <GalleryLightbox
+        <GlimpsesLightbox
           isOpen={selectedItemIndex !== null}
           onClose={() => setSelectedItemIndex(null)}
           items={items.map(i => ({
@@ -143,3 +143,4 @@ export function HorizontalScrollGallery({
     </section>
   );
 }
+

@@ -110,3 +110,4 @@ export function Footer({ content, theme }: FooterProps) {
     </footer>
   );
 }
+

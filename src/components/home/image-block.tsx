@@ -19,3 +19,4 @@ export function ImageBlock({ imageUrl, alt, height = "60vh" }: ImageBlockProps) 
     </section>
   );
 }
+

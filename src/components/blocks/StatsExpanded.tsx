@@ -103,3 +103,4 @@ export function StatsExpandedBlock({ title, subtitle, items, theme }: any) {
     </section>
   );
 }
+

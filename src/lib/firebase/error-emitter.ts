@@ -5,3 +5,4 @@ import { EventEmitter } from 'events';
 class PermissionErrorEmitter extends EventEmitter {}
 
 export const errorEmitter = new PermissionErrorEmitter();
+

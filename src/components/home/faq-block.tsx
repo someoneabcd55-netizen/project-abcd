@@ -121,3 +121,4 @@ export function FAQBlock({ title, subtitle, items, theme }: FAQBlockProps) {
     </section>
   );
 }
+

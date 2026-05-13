@@ -17,7 +17,7 @@ const componentMap: Record<string, any> = {
   faq: dynamic(() => import('./blocks/FAQBlock').then(m => m.FAQBlock)),
   timeline: dynamic(() => import('./blocks/TimelineBlock').then(m => m.TimelineBlock)),
   cards: dynamic(() => import('./blocks/CardsGrid').then(m => m.CardsGrid)),
-  gallery: dynamic(() => import('./blocks/Gallery').then(m => m.Gallery)),
+  glimpses: dynamic(() => import('./blocks/Glimpses').then(m => m.Glimpses)),
   table: dynamic(() => import('./blocks/TableBlock').then(m => m.TableBlock)),
   stats: dynamic(() => import('./blocks/StatsCounter').then(m => m.StatsCounter)),
   announcements: dynamic(() => import('./blocks/Announcements').then(m => m.AnnouncementsBlock)),
@@ -27,12 +27,12 @@ const componentMap: Record<string, any> = {
   'video-embed': dynamic(() => import('./blocks/VideoEmbed').then(m => m.VideoEmbedBlock)),
   'image-layout': dynamic(() => import('./blocks/ImageLayout').then(m => m.ImageLayout)),
   'map-location': dynamic(() => import('./blocks/MapLocation').then(m => m.MapLocationBlock)),
-  'masonry-gallery': dynamic(() => import('./blocks/MasonryGallery').then(m => m.MasonryGallery)),
-  'featured-gallery': dynamic(() => import('./blocks/FeaturedGallery').then(m => m.FeaturedGallery)),
-  'equal-grid-gallery': dynamic(() => import('./blocks/EqualGridGallery').then(m => m.EqualGridGallery)),
-  'horizontal-scroll-gallery': dynamic(() => import('./blocks/HorizontalScrollGallery').then(m => m.HorizontalScrollGallery)),
+  'masonry-glimpses': dynamic(() => import('./blocks/MasonryGlimpses').then(m => m.MasonryGlimpses)),
+  'featured-glimpses': dynamic(() => import('./blocks/FeaturedGlimpses').then(m => m.FeaturedGlimpses)),
+  'equal-grid-glimpses': dynamic(() => import('./blocks/EqualGridGlimpses').then(m => m.EqualGridGlimpses)),
+  'horizontal-scroll-glimpses': dynamic(() => import('./blocks/HorizontalScrollGlimpses').then(m => m.HorizontalScrollGlimpses)),
   'fullscreen-slideshow': dynamic(() => import('./blocks/FullscreenSlideshow').then(m => m.FullscreenSlideshow)),
-  'video-gallery': dynamic(() => import('./blocks/VideoGallery').then(m => m.VideoGallery)),
+  'video-glimpses': dynamic(() => import('./blocks/VideoGlimpses').then(m => m.VideoGlimpses)),
   
   // Layout Blocks
   container: dynamic(() => import('./blocks/Container').then(m => m.Container)),
@@ -103,3 +103,4 @@ export default function HomeRenderer({ blocks, theme }: { blocks: BlockData[], t
     </>
   );
 }
+

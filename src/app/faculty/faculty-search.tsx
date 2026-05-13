@@ -185,3 +185,4 @@ export function FacultySearch({ faculty, theme }: FacultySearchProps & { theme?:
         </>
     );
 }
+

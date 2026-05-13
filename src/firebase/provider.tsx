@@ -46,3 +46,4 @@ export const useFirebase = (): FirebaseContextState => {
   }
   return context;
 };
+

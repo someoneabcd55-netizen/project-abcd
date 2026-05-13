@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronLeft, ChevronRight, Play } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
-import { GalleryLightbox } from './GalleryLightbox';
+import { GlimpsesLightbox } from './GlimpsesLightbox';
 
 interface SlideItem {
   mediaUrl: string;
@@ -195,3 +195,4 @@ export function FullscreenSlideshow({
     </section>
   );
 }
+

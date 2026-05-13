@@ -234,7 +234,7 @@ export function AdminFaculty() {
                     <BlockAdder type="faq" icon={<HelpCircle className="w-4 h-4" />} label="FAQ" onClick={handleAddBlock} />
                     <BlockAdder type="timeline" icon={<History className="w-4 h-4" />} label="Timeline" onClick={handleAddBlock} />
                     <BlockAdder type="cards" icon={<Layout className="w-4 h-4" />} label="Cards" onClick={handleAddBlock} />
-                    <BlockAdder type="gallery" icon={<ImageIcon className="w-4 h-4" />} label="Gallery" onClick={handleAddBlock} />
+                    <BlockAdder type="Glimpses" icon={<ImageIcon className="w-4 h-4" />} label="Glimpses" onClick={handleAddBlock} />
                     <BlockAdder type="table" icon={<List className="w-4 h-4" />} label="Table" onClick={handleAddBlock} />
                     <BlockAdder type="stats" icon={<Activity className="w-4 h-4" />} label="Stats" onClick={handleAddBlock} />
                 </div>
@@ -306,7 +306,7 @@ function getDefaultData(type: string) {
         case 'faq': return { title: 'Faculty FAQ', items: [{question: 'How can I contact a professor?', answer: 'You can find the email addresses of all faculty members in their profiles below.'}] };
         case 'timeline': return { title: 'Academic Milestones', items: [{year: '2024', title: 'Excellence Award', description: 'Awarded for best teaching standards.'}] };
         case 'cards': return { title: 'Our Core Values', items: [{title: 'Innovation', description: 'Embracing new teaching methodologies.'}] };
-        case 'gallery': return { title: 'Faculty in Action', items: [{imageUrl: 'https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?auto=format&fit=crop&q=80'}] };
+        case 'Glimpses': return { title: 'Faculty in Action', items: [{imageUrl: 'https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?auto=format&fit=crop&q=80'}] };
         case 'table': return { title: 'Faculty Directory', headers: ['Name', 'Department', 'Email'], rows: [['John Doe', 'Science', 'john@school.edu']] };
         case 'stats': return { title: 'Faculty Stats', items: [{label: 'PhD Holders', value: '45+'}, {label: 'Avg Experience', value: '15 Years'}] };
         case 'container': return { childBlocks: [] };
@@ -320,3 +320,4 @@ function getDefaultData(type: string) {
         default: return {};
     }
 }
+

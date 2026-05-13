@@ -14,14 +14,14 @@ interface LightboxItem {
   caption?: string;
 }
 
-interface GalleryLightboxProps {
+interface GlimpsesLightboxProps {
   isOpen: boolean;
   onClose: () => void;
   items: LightboxItem[];
   initialIndex: number;
 }
 
-export function GalleryLightbox({ isOpen, onClose, items, initialIndex }: GalleryLightboxProps) {
+export function GlimpsesLightbox({ isOpen, onClose, items, initialIndex }: GlimpsesLightboxProps) {
   const [currentIndex, setCurrentIndex] = useState(initialIndex);
   const [isFullscreen, setIsFullscreen] = useState(false);
 
@@ -146,3 +146,4 @@ export function GalleryLightbox({ isOpen, onClose, items, initialIndex }: Galler
     </AnimatePresence>
   );
 }
+

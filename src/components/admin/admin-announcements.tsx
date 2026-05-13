@@ -155,3 +155,4 @@ export function AdminAnnouncements({ block, open, onOpenChange, onUpdate }: Admi
         </Dialog>
     );
 }
+

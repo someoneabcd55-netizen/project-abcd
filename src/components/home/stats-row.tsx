@@ -57,3 +57,4 @@ export function StatsRow({ stats, theme }: StatsRowProps) {
     </section>
   );
 }
+

@@ -10,7 +10,7 @@ import { QuoteBlock } from './QuoteBlock';
 import { FAQBlock } from './FAQBlock';
 import { TimelineBlock } from './TimelineBlock';
 import { CardsGrid } from './CardsGrid';
-import { Gallery } from './Gallery';
+import { Glimpses } from './Glimpses';
 import { TableBlock } from './TableBlock';
 import { StatsCounter } from './StatsCounter';
 import { AnnouncementsBlock } from './Announcements';
@@ -20,12 +20,12 @@ import { StatsExpandedBlock } from './StatsExpanded';
 import { TeamShowcaseBlock } from './TeamShowcase';
 import { VideoEmbedBlock } from './VideoEmbed';
 import { ImageLayout } from './ImageLayout';
-import { MasonryGallery } from './MasonryGallery';
-import { FeaturedGallery } from './FeaturedGallery';
-import { EqualGridGallery } from './EqualGridGallery';
-import { HorizontalScrollGallery } from './HorizontalScrollGallery';
+import { MasonryGlimpses } from './MasonryGlimpses';
+import { FeaturedGlimpses } from './FeaturedGlimpses';
+import { EqualGridGlimpses } from './EqualGridGlimpses';
+import { HorizontalScrollGlimpses } from './HorizontalScrollGlimpses';
 import { FullscreenSlideshow } from './FullscreenSlideshow';
-import { VideoGallery } from './VideoGallery';
+import { VideoGlimpses } from './VideoGlimpses';
 
 // Layout Blocks
 import { Container } from './Container';
@@ -49,7 +49,7 @@ export const componentMap: Record<string, any> = {
   faq: FAQBlock,
   timeline: TimelineBlock,
   cards: CardsGrid,
-  gallery: Gallery,
+  glimpses: Glimpses,
   table: TableBlock,
   stats: StatsCounter,
   announcements: AnnouncementsBlock,
@@ -59,12 +59,12 @@ export const componentMap: Record<string, any> = {
   'video-embed': VideoEmbedBlock,
   'image-layout': ImageLayout,
   'map-location': MapLocationBlock,
-  'masonry-gallery': MasonryGallery,
-  'featured-gallery': FeaturedGallery,
-  'equal-grid-gallery': EqualGridGallery,
-  'horizontal-scroll-gallery': HorizontalScrollGallery,
+  'masonry-glimpses': MasonryGlimpses,
+  'featured-glimpses': FeaturedGlimpses,
+  'equal-grid-glimpses': EqualGridGlimpses,
+  'horizontal-scroll-glimpses': HorizontalScrollGlimpses,
   'fullscreen-slideshow': FullscreenSlideshow,
-  'video-gallery': VideoGallery,
+  'video-glimpses': VideoGlimpses,
   
   // Layout Blocks
   container: Container,
@@ -76,3 +76,4 @@ export const componentMap: Record<string, any> = {
   section: SectionWrapper,
   split: SplitLayout,
 };
+

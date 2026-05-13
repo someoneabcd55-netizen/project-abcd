@@ -20,3 +20,4 @@ export default async function Home() {
 
     return <HomeRenderer blocks={blocks} theme={appearance?.theme} />;
 }
+

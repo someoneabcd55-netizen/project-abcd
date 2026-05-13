@@ -100,3 +100,4 @@ function Counter({ value, animate }: { value: string, animate: boolean }) {
 
   return <span ref={ref}>{isNaN(target) ? value : count.toLocaleString()}</span>;
 }
+

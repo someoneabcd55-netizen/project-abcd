@@ -78,16 +78,16 @@ export function AdminRecursiveEditor({ blocks, onChange, onEditBlock }: AdminRec
         <BlockTypeButton icon={<HelpCircle size={14}/>} label="FAQ" onClick={() => handleAddBlock('faq')} />
         <BlockTypeButton icon={<History size={14}/>} label="Timeline" onClick={() => handleAddBlock('timeline')} />
         <BlockTypeButton icon={<Bookmark size={14}/>} label="Cards" onClick={() => handleAddBlock('cards')} />
-        <BlockTypeButton icon={<ImageIcon size={14}/>} label="Gallery" onClick={() => handleAddBlock('gallery')} />
+        <BlockTypeButton icon={<ImageIcon size={14}/>} label="Glimpses" onClick={() => handleAddBlock('Glimpses')} />
         <BlockTypeButton icon={<List size={14}/>} label="Table" onClick={() => handleAddBlock('table')} />
         <BlockTypeButton icon={<Activity size={14}/>} label="Stats" onClick={() => handleAddBlock('stats')} />
         <BlockTypeButton icon={<ImagePlus size={14}/>} label="ImgLayout" onClick={() => handleAddBlock('image-layout')} />
-        <BlockTypeButton icon={<GridIcon size={14}/>} label="Masonry" onClick={() => handleAddBlock('masonry-gallery')} />
-        <BlockTypeButton icon={<Layout size={14}/>} label="Featured" onClick={() => handleAddBlock('featured-gallery')} />
-        <BlockTypeButton icon={<GridIcon size={14}/>} label="EqGrid" onClick={() => handleAddBlock('equal-grid-gallery')} />
-        <BlockTypeButton icon={<ChevronRight size={14}/>} label="Scroll" onClick={() => handleAddBlock('horizontal-scroll-gallery')} />
+        <BlockTypeButton icon={<GridIcon size={14}/>} label="Masonry" onClick={() => handleAddBlock('masonry-Glimpses')} />
+        <BlockTypeButton icon={<Layout size={14}/>} label="Featured" onClick={() => handleAddBlock('featured-Glimpses')} />
+        <BlockTypeButton icon={<GridIcon size={14}/>} label="EqGrid" onClick={() => handleAddBlock('equal-grid-Glimpses')} />
+        <BlockTypeButton icon={<ChevronRight size={14}/>} label="Scroll" onClick={() => handleAddBlock('horizontal-scroll-Glimpses')} />
         <BlockTypeButton icon={<Film size={14}/>} label="Slideshow" onClick={() => handleAddBlock('fullscreen-slideshow')} />
-        <BlockTypeButton icon={<PlayCircle size={14}/>} label="VideoGal" onClick={() => handleAddBlock('video-gallery')} />
+        <BlockTypeButton icon={<PlayCircle size={14}/>} label="VideoGal" onClick={() => handleAddBlock('video-Glimpses')} />
         
         <div className="w-full h-px bg-border my-1" />
         <p className="w-full text-[10px] font-bold uppercase text-muted-foreground mb-1 ml-1">Layout</p>
@@ -160,7 +160,7 @@ function getDefaultDataForType(type: string) {
     case 'faq': return { title: 'FAQ', items: [{ question: 'Sample Question?', answer: 'Sample Answer' }] };
     case 'timeline': return { title: 'History', items: [{ year: '2024', title: 'Event', description: 'Description' }] };
     case 'cards': return { title: 'Features', items: [{ title: 'Feature 1', description: 'Details' }] };
-    case 'gallery': return { title: 'Gallery', items: [{ imageUrl: 'https://picsum.photos/seed/g1/800/600' }] };
+    case 'Glimpses': return { title: 'Glimpses', items: [{ imageUrl: 'https://picsum.photos/seed/g1/800/600' }] };
     case 'stats': return { title: 'Stats', items: [{ label: 'Users', value: '10K+' }] };
     case 'container': return { childBlocks: [] };
     case 'grid': return { columns: 3, childBlocks: [] };
@@ -171,12 +171,13 @@ function getDefaultDataForType(type: string) {
     case 'section': return { background: 'white', childBlocks: [] };
     case 'split': return { split: '50/50', leftBlocks: [], rightBlocks: [] };
     case 'image-layout': return { title: 'Image Layout', layout: 'mosaic', items: [{ imageUrl: 'https://picsum.photos/seed/im1/800/800' }, { imageUrl: 'https://picsum.photos/seed/im2/800/800' }] };
-    case 'masonry-gallery': return { title: 'Masonry Gallery', columns: 3, mediaType: 'images', items: [{ mediaUrl: 'https://picsum.photos/seed/m1/800/1000', mediaType: 'image', category: 'Category' }] };
-    case 'featured-gallery': return { title: 'Featured Gallery', featuredItem: { mediaUrl: 'https://picsum.photos/seed/f1/1200/800', mediaType: 'image', title: 'Main Story' }, gridItems: [{ mediaUrl: 'https://picsum.photos/seed/f2/600/600', mediaType: 'image' }] };
-    case 'equal-grid-gallery': return { title: 'Grid Gallery', columns: 3, aspectRatio: '1:1', items: [{ mediaUrl: 'https://picsum.photos/seed/e1/800/800', mediaType: 'image' }] };
-    case 'horizontal-scroll-gallery': return { title: 'Scroll Gallery', items: [{ mediaUrl: 'https://picsum.photos/seed/s1/800/600', mediaType: 'image' }] };
+    case 'masonry-Glimpses': return { title: 'Masonry Glimpses', columns: 3, mediaType: 'images', items: [{ mediaUrl: 'https://picsum.photos/seed/m1/800/1000', mediaType: 'image', category: 'Category' }] };
+    case 'featured-Glimpses': return { title: 'Featured Glimpses', featuredItem: { mediaUrl: 'https://picsum.photos/seed/f1/1200/800', mediaType: 'image', title: 'Main Story' }, gridItems: [{ mediaUrl: 'https://picsum.photos/seed/f2/600/600', mediaType: 'image' }] };
+    case 'equal-grid-Glimpses': return { title: 'Grid Glimpses', columns: 3, aspectRatio: '1:1', items: [{ mediaUrl: 'https://picsum.photos/seed/e1/800/800', mediaType: 'image' }] };
+    case 'horizontal-scroll-Glimpses': return { title: 'Scroll Glimpses', items: [{ mediaUrl: 'https://picsum.photos/seed/s1/800/600', mediaType: 'image' }] };
     case 'fullscreen-slideshow': return { height: '75vh', items: [{ mediaUrl: 'https://picsum.photos/seed/sl1/1920/1080', mediaType: 'image', overlayTitle: 'Hero Slide' }] };
-    case 'video-gallery': return { title: 'Video Gallery', items: [{ videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ', title: 'Featured Video' }] };
+    case 'video-Glimpses': return { title: 'Video Glimpses', items: [{ videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ', title: 'Featured Video' }] };
     default: return {};
   }
 }
+

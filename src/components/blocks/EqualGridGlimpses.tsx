@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { Play } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { GalleryLightbox } from './GalleryLightbox';
+import { GlimpsesLightbox } from './GlimpsesLightbox';
 
 interface EqualGridItem {
   mediaUrl: string;
@@ -16,7 +16,7 @@ interface EqualGridItem {
   caption?: string;
 }
 
-interface EqualGridGalleryProps {
+interface EqualGridGlimpsesProps {
   eyebrowLabel?: string;
   title: string;
   subtitle?: string;
@@ -32,7 +32,7 @@ interface EqualGridGalleryProps {
   items: EqualGridItem[];
 }
 
-export function EqualGridGallery({
+export function EqualGridGlimpses({
   eyebrowLabel,
   title,
   subtitle,
@@ -45,7 +45,7 @@ export function EqualGridGallery({
   showCaptions = false,
   hoverStyle = 'overlay',
   items = []
-}: EqualGridGalleryProps) {
+}: EqualGridGlimpsesProps) {
   const [activeFilter, setActiveFilter] = useState('All');
   const [selectedItemIndex, setSelectedItemIndex] = useState<number | null>(null);
 
@@ -160,7 +160,7 @@ export function EqualGridGallery({
         </div>
 
         {selectedItemIndex !== null && (
-          <GalleryLightbox
+          <GlimpsesLightbox
             isOpen={selectedItemIndex !== null}
             onClose={() => setSelectedItemIndex(null)}
             items={filteredItems.map(i => ({
@@ -176,3 +176,4 @@ export function EqualGridGallery({
     </section>
   );
 }
+

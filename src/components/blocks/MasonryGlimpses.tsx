@@ -6,9 +6,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Search, Play } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Input } from '@/components/ui/input';
-import { GalleryLightbox } from './GalleryLightbox';
+import { GlimpsesLightbox } from './GlimpsesLightbox';
 
-interface MasonryGalleryProps {
+interface MasonryGlimpsesProps {
   eyebrowLabel?: string;
   title: string;
   subtitle?: string;
@@ -28,7 +28,7 @@ interface MasonryGalleryProps {
   }>;
 }
 
-export function MasonryGallery({
+export function MasonryGlimpses({
   eyebrowLabel,
   title,
   subtitle,
@@ -38,7 +38,7 @@ export function MasonryGallery({
   showSearch = false,
   lightbox = true,
   items = []
-}: MasonryGalleryProps) {
+}: MasonryGlimpsesProps) {
   const [activeFilter, setActiveFilter] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedItemIndex, setSelectedItemIndex] = useState<number | null>(null);
@@ -70,7 +70,7 @@ export function MasonryGallery({
               <div className="relative w-full md:w-80">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                 <Input 
-                  placeholder="Search gallery..." 
+                  placeholder="Search Glimpses..." 
                   className="pl-10 rounded-full bg-muted/50 border-none focus-visible:ring-primary"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
@@ -148,7 +148,7 @@ export function MasonryGallery({
         </div>
 
         {selectedItemIndex !== null && (
-          <GalleryLightbox
+          <GlimpsesLightbox
             isOpen={selectedItemIndex !== null}
             onClose={() => setSelectedItemIndex(null)}
             items={filteredItems.map(i => ({
@@ -164,3 +164,4 @@ export function MasonryGallery({
     </section>
   );
 }
+

@@ -10,13 +10,13 @@ import { arrayMove, SortableContext, useSortable, rectSortingStrategy } from '@d
 import { CSS } from '@dnd-kit/utilities';
 
 import {
-  getGalleryImages,
-  addGalleryItem,
-  deleteGalleryItem,
-  updateGalleryItem,
-  reorderGalleryImages,
-  type GalleryImage,
-} from '@/firebase/services/gallery';
+  getGlimpsesImages,
+  addGlimpsesItem,
+  deleteGlimpsesItem,
+  updateGlimpsesItem,
+  reorderGlimpsesImages,
+  type GlimpsesImage,
+} from '@/firebase/services/Glimpses';
 
 import { Button } from '@/components/ui/button';
 import { CardContent, CardFooter } from '@/components/ui/card';
@@ -51,15 +51,15 @@ import {
 } from '@/components/ui/alert-dialog';
 
 
-const galleryFormSchema = z.object({
+const GlimpsesFormSchema = z.object({
   alt: z.string().min(1, 'Alt text is required'),
   src: z.string().url('A valid image URL is required').or(z.literal('')),
   dataAiHint: z.string().min(1, 'AI hint is required'),
 });
 
-type GalleryFormValues = z.infer<typeof galleryFormSchema>;
+type GlimpsesFormValues = z.infer<typeof GlimpsesFormSchema>;
 
-function SortableImage({ image, onEdit, onDelete }: { image: GalleryImage, onEdit: () => void, onDelete: () => void }) {
+function SortableImage({ image, onEdit, onDelete }: { image: GlimpsesImage, onEdit: () => void, onDelete: () => void }) {
     const {
         attributes,
         listeners,
@@ -109,30 +109,30 @@ function SortableImage({ image, onEdit, onDelete }: { image: GalleryImage, onEdi
     );
 }
 
-export function AdminGallery({ onGalleryUpdate }: { onGalleryUpdate: () => void }) {
-  const [images, setImages] = useState<GalleryImage[]>([]);
+export function AdminGlimpses({ onGlimpsesUpdate }: { onGlimpsesUpdate: () => void }) {
+  const [images, setImages] = useState<GlimpsesImage[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
   const [editDialogOpen, setEditDialogOpen] = useState(false);
-  const [imageToInteract, setImageToInteract] = useState<GalleryImage | null>(null);
+  const [imageToInteract, setImageToInteract] = useState<GlimpsesImage | null>(null);
   const [uploadFile, setUploadFile] = useState<File | null>(null);
   const [uploadPreview, setUploadPreview] = useState<string | null>(null);
   const [isUploadingFile, setIsUploadingFile] = useState(false);
   const { toast } = useToast();
 
-  const addForm = useForm<GalleryFormValues>({
-    resolver: zodResolver(galleryFormSchema),
+  const addForm = useForm<GlimpsesFormValues>({
+    resolver: zodResolver(GlimpsesFormSchema),
     defaultValues: { alt: '', src: '', dataAiHint: '' },
   });
   
-  const editForm = useForm<GalleryFormValues>({
-    resolver: zodResolver(galleryFormSchema),
+  const editForm = useForm<GlimpsesFormValues>({
+    resolver: zodResolver(GlimpsesFormSchema),
   });
 
   const fetchImages = async () => {
     setIsLoading(true);
-    const data = await getGalleryImages();
+    const data = await getGlimpsesImages();
     setImages(data);
     setIsLoading(false);
   };
@@ -164,9 +164,9 @@ export function AdminGallery({ onGalleryUpdate }: { onGalleryUpdate: () => void 
 
         try {
             const reorderPayload = newOrder.map((img, index) => ({ id: img.id, order_position: index }));
-            await reorderGalleryImages(reorderPayload);
-            toast({ title: 'Success', description: 'Gallery order updated.' });
-            onGalleryUpdate();
+            await reorderGlimpsesImages(reorderPayload);
+            toast({ title: 'Success', description: 'Glimpses order updated.' });
+            onGlimpsesUpdate();
         } catch (error) {
             toast({ variant: 'destructive', title: 'Error', description: 'Failed to update order.' });
             setImages(images); // Revert on failure
@@ -174,12 +174,12 @@ export function AdminGallery({ onGalleryUpdate }: { onGalleryUpdate: () => void 
     }
   };
 
-  const handleDeleteClick = (image: GalleryImage) => {
+  const handleDeleteClick = (image: GlimpsesImage) => {
     setImageToInteract(image);
     setDeleteConfirmOpen(true);
   };
   
-  const handleEditClick = (image: GalleryImage) => {
+  const handleEditClick = (image: GlimpsesImage) => {
     setImageToInteract(image);
     editForm.reset(image);
     setEditDialogOpen(true);
@@ -189,10 +189,10 @@ export function AdminGallery({ onGalleryUpdate }: { onGalleryUpdate: () => void 
     if (!imageToInteract) return;
     setIsSubmitting(true);
     try {
-      await deleteGalleryItem(imageToInteract.id, imageToInteract.src, imageToInteract.publicId);
+      await deleteGlimpsesItem(imageToInteract.id, imageToInteract.src, imageToInteract.publicId);
       toast({ title: 'Success', description: 'Image deleted.' });
       await fetchImages();
-      onGalleryUpdate();
+      onGlimpsesUpdate();
     } catch (error) {
       toast({ variant: 'destructive', title: 'Error', description: 'Failed to delete image.' });
     } finally {
@@ -202,7 +202,7 @@ export function AdminGallery({ onGalleryUpdate }: { onGalleryUpdate: () => void 
     }
   };
 
-  const onAddSubmit = async (values: GalleryFormValues) => {
+  const onAddSubmit = async (values: GlimpsesFormValues) => {
     setIsSubmitting(true);
     try {
         let src = values.src;
@@ -232,15 +232,15 @@ export function AdminGallery({ onGalleryUpdate }: { onGalleryUpdate: () => void 
         }
 
         const currentMaxOrder = images.reduce((max, img) => Math.max(max, img.order_position), -1);
-        await addGalleryItem({
+        await addGlimpsesItem({
             ...values,
             src,
             publicId,
             order_position: currentMaxOrder + 1,
         });
-        toast({ title: 'Success', description: 'Image added to gallery.' });
+        toast({ title: 'Success', description: 'Image added to Glimpses.' });
         await fetchImages();
-        onGalleryUpdate();
+        onGlimpsesUpdate();
         addForm.reset({ alt: '', src: '', dataAiHint: '' });
         setUploadFile(null);
         setUploadPreview(null);
@@ -253,14 +253,14 @@ export function AdminGallery({ onGalleryUpdate }: { onGalleryUpdate: () => void 
     }
   };
   
-  const onEditSubmit = async (values: GalleryFormValues) => {
+  const onEditSubmit = async (values: GlimpsesFormValues) => {
     if (!imageToInteract) return;
     setIsSubmitting(true);
     try {
-        await updateGalleryItem(imageToInteract.id, values);
+        await updateGlimpsesItem(imageToInteract.id, values);
         toast({ title: 'Success', description: 'Image updated.' });
         await fetchImages();
-        onGalleryUpdate();
+        onGlimpsesUpdate();
         setEditDialogOpen(false);
     } catch (error) {
         const message = error instanceof Error ? error.message : 'An unknown error occurred.';
@@ -279,7 +279,7 @@ export function AdminGallery({ onGalleryUpdate }: { onGalleryUpdate: () => void 
           </div>
         ) : images.length === 0 ? (
            <div className="flex flex-col items-center justify-center h-48 border-2 border-dashed rounded-lg">
-              <p className="text-muted-foreground">The gallery is empty.</p>
+              <p className="text-muted-foreground">The Glimpses is empty.</p>
           </div>
         ) : (
           <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
@@ -306,10 +306,10 @@ export function AdminGallery({ onGalleryUpdate }: { onGalleryUpdate: () => void 
                     <div className="space-y-3 rounded-lg border border-dashed p-4">
                         <div className="flex items-center gap-2">
                             <Upload className="h-4 w-4 text-primary" />
-                            <FormLabel htmlFor="gallery-file" className="m-0">Upload Image File</FormLabel>
+                            <FormLabel htmlFor="Glimpses-file" className="m-0">Upload Image File</FormLabel>
                         </div>
                         <Input
-                            id="gallery-file"
+                            id="Glimpses-file"
                             type="file"
                             accept="image/*"
                             onChange={(e) => setUploadFile(e.target.files?.[0] || null)}
@@ -363,7 +363,7 @@ export function AdminGallery({ onGalleryUpdate }: { onGalleryUpdate: () => void 
                      <Button type="submit" disabled={isSubmitting}>
                         {(isSubmitting || isUploadingFile) && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                         <Plus className="mr-2 h-4 w-4" />
-                        Upload to Gallery
+                        Upload to Glimpses
                     </Button>
                 </form>
             </Form>
@@ -406,7 +406,7 @@ export function AdminGallery({ onGalleryUpdate }: { onGalleryUpdate: () => void 
           <AlertDialogHeader>
             <AlertDialogTitle>Are you sure?</AlertDialogTitle>
             <AlertDialogDescription>
-              This will permanently delete the image from your gallery: <span className="font-semibold">{imageToInteract?.alt}</span>. This action cannot be undone.
+              This will permanently delete the image from your Glimpses: <span className="font-semibold">{imageToInteract?.alt}</span>. This action cannot be undone.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
@@ -420,3 +420,4 @@ export function AdminGallery({ onGalleryUpdate }: { onGalleryUpdate: () => void 
     </>
   );
 }
+

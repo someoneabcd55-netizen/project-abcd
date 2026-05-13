@@ -96,3 +96,4 @@ export async function deleteEvent(id: string) {
     revalidatePath('/');
     revalidatePath('/admin');
 }
+

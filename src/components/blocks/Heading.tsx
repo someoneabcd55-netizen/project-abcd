@@ -71,3 +71,4 @@ export function Heading({
     </motion.div>
   );
 }
+

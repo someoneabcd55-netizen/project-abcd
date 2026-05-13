@@ -35,3 +35,4 @@ export async function updateTheme(theme: Theme) {
     throw new Error('Failed to update theme');
   }
 }
+

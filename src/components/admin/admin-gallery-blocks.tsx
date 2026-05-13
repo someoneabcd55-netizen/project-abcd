@@ -29,20 +29,20 @@ function SortableBlockItem({ block, onEdit, onDelete, onToggleVisibility }: { bl
             return <><Film className="h-4 w-4 mr-2 text-muted-foreground" /> Hero: {block.data.title}</>;
         case 'image-layout':
             return <><ImagePlus className="h-4 w-4 mr-2 text-muted-foreground" /> Image Layout: {block.data.layout}</>;
-        case 'masonry-gallery':
-            return <><GridIcon className="h-4 w-4 mr-2 text-muted-foreground" /> Masonry Gallery: {block.data.title}</>;
-        case 'featured-gallery':
-            return <><Layout className="h-4 w-4 mr-2 text-muted-foreground" /> Featured Gallery: {block.data.title}</>;
-        case 'equal-grid-gallery':
-            return <><GridIcon className="h-4 w-4 mr-2 text-muted-foreground" /> Grid Gallery: {block.data.title}</>;
-        case 'horizontal-scroll-gallery':
-            return <><ChevronRight className="h-4 w-4 mr-2 text-muted-foreground" /> Scroll Gallery: {block.data.title}</>;
+        case 'masonry-Glimpses':
+            return <><GridIcon className="h-4 w-4 mr-2 text-muted-foreground" /> Masonry Glimpses: {block.data.title}</>;
+        case 'featured-Glimpses':
+            return <><Layout className="h-4 w-4 mr-2 text-muted-foreground" /> Featured Glimpses: {block.data.title}</>;
+        case 'equal-grid-Glimpses':
+            return <><GridIcon className="h-4 w-4 mr-2 text-muted-foreground" /> Grid Glimpses: {block.data.title}</>;
+        case 'horizontal-scroll-Glimpses':
+            return <><ChevronRight className="h-4 w-4 mr-2 text-muted-foreground" /> Scroll Glimpses: {block.data.title}</>;
         case 'fullscreen-slideshow':
             return <><Film className="h-4 w-4 mr-2 text-muted-foreground" /> Slideshow</>;
-        case 'video-gallery':
-            return <><PlayCircle className="h-4 w-4 mr-2 text-muted-foreground" /> Video Gallery: {block.data.title}</>;
-        case 'gallery':
-            return <><ImageIcon className="h-4 w-4 mr-2 text-muted-foreground" /> Legacy Gallery: {block.data.title}</>;
+        case 'video-Glimpses':
+            return <><PlayCircle className="h-4 w-4 mr-2 text-muted-foreground" /> Video Glimpses: {block.data.title}</>;
+        case 'Glimpses':
+            return <><ImageIcon className="h-4 w-4 mr-2 text-muted-foreground" /> Legacy Glimpses: {block.data.title}</>;
         case 'heading':
             return <><Pilcrow className="h-4 w-4 mr-2 text-muted-foreground" /> Heading: {block.data.text}</>;
         default:
@@ -65,10 +65,10 @@ function SortableBlockItem({ block, onEdit, onDelete, onToggleVisibility }: { bl
   );
 }
 
-export function AdminGalleryBlocks() {
+export function AdminGlimpsesBlocks() {
   const [blocks, setBlocks] = useState<Block[]>([]);
   const [originalBlocks, setOriginalBlocks] = useState<Block[]>([]);
-  const [galleryPage, setGalleryPage] = useState<Page | null>(null);
+  const [GlimpsesPage, setGlimpsesPage] = useState<Page | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
   const [hasChanges, setHasChanges] = useState(false);
@@ -79,15 +79,15 @@ export function AdminGalleryBlocks() {
   const fetchPageAndBlocks = async () => {
     setIsLoading(true);
     try {
-      const pageData = await getPageBySlug('gallery');
+      const pageData = await getPageBySlug('Glimpses');
       if (pageData) {
-        setGalleryPage(pageData);
+        setGlimpsesPage(pageData);
         const blocksData = await getBlocksAdmin(pageData.id);
         setBlocks(blocksData);
         setOriginalBlocks(JSON.parse(JSON.stringify(blocksData)));
         setHasChanges(false);
       } else {
-        toast({ variant: 'destructive', title: 'Error', description: 'Could not find gallery page data.' });
+        toast({ variant: 'destructive', title: 'Error', description: 'Could not find Glimpses page data.' });
       }
     } catch (e) {
       toast({ variant: 'destructive', title: 'Error', description: 'Failed to load page data.' });
@@ -113,11 +113,11 @@ export function AdminGalleryBlocks() {
   };
 
   const handleAddBlock = (type: string) => {
-    if (!galleryPage) return;
+    if (!GlimpsesPage) return;
 
     const newBlock: Block = {
         id: `temp-${uuidv4()}`,
-        page_id: galleryPage.id,
+        page_id: GlimpsesPage.id,
         type: type as any,
         order_position: blocks.length,
         visible: true,
@@ -141,11 +141,11 @@ export function AdminGalleryBlocks() {
   }
 
   const savePageStructure = async () => {
-    if (!galleryPage) return;
+    if (!GlimpsesPage) return;
     setIsSaving(true);
     try {
-        await updatePageBlocks(galleryPage.id, blocks);
-        toast({ title: 'Success', description: 'Gallery layout saved!' });
+        await updatePageBlocks(GlimpsesPage.id, blocks);
+        toast({ title: 'Success', description: 'Glimpses layout saved!' });
         fetchPageAndBlocks();
     } catch (e) {
         toast({ variant: 'destructive', title: 'Error', description: 'Failed to save changes.' });
@@ -165,7 +165,7 @@ export function AdminGalleryBlocks() {
     <>
         <div className="flex justify-between items-center mb-6 bg-muted/30 p-4 rounded-xl border">
             <div>
-                <h2 className="text-xl font-bold">Gallery Page Layout</h2>
+                <h2 className="text-xl font-bold">Glimpses Page Layout</h2>
                 <p className="text-sm text-muted-foreground">{blocks.length} sections on this page</p>
             </div>
             {hasChanges && (
@@ -211,17 +211,17 @@ export function AdminGalleryBlocks() {
 
         <CardFooter className="flex-col items-start gap-6 border-t pt-6">
             <div className="w-full">
-                <h3 className="text-xs font-black uppercase tracking-widest text-primary/60 mb-4">Gallery Components</h3>
+                <h3 className="text-xs font-black uppercase tracking-widest text-primary/60 mb-4">Glimpses Components</h3>
                 <div className="flex gap-2 flex-wrap">
                     <BlockAdder type="hero" icon={<Film className="w-4 h-4" />} label="Hero" onClick={handleAddBlock} />
-                    <BlockAdder type="masonry-gallery" icon={<GridIcon className="w-4 h-4" />} label="Masonry" onClick={handleAddBlock} />
-                    <BlockAdder type="featured-gallery" icon={<Layout className="w-4 h-4" />} label="Featured" onClick={handleAddBlock} />
-                    <BlockAdder type="equal-grid-gallery" icon={<GridIcon className="w-4 h-4" />} label="Eq Grid" onClick={handleAddBlock} />
-                    <BlockAdder type="horizontal-scroll-gallery" icon={<ChevronRight className="w-4 h-4" />} label="Scroll" onClick={handleAddBlock} />
+                    <BlockAdder type="masonry-Glimpses" icon={<GridIcon className="w-4 h-4" />} label="Masonry" onClick={handleAddBlock} />
+                    <BlockAdder type="featured-Glimpses" icon={<Layout className="w-4 h-4" />} label="Featured" onClick={handleAddBlock} />
+                    <BlockAdder type="equal-grid-Glimpses" icon={<GridIcon className="w-4 h-4" />} label="Eq Grid" onClick={handleAddBlock} />
+                    <BlockAdder type="horizontal-scroll-Glimpses" icon={<ChevronRight className="w-4 h-4" />} label="Scroll" onClick={handleAddBlock} />
                     <BlockAdder type="fullscreen-slideshow" icon={<Film className="w-4 h-4" />} label="Slideshow" onClick={handleAddBlock} />
-                    <BlockAdder type="video-gallery" icon={<PlayCircle className="w-4 h-4" />} label="Video Gal" onClick={handleAddBlock} />
+                    <BlockAdder type="video-Glimpses" icon={<PlayCircle className="w-4 h-4" />} label="Video Gal" onClick={handleAddBlock} />
                     <BlockAdder type="image-layout" icon={<ImagePlus className="w-4 h-4" />} label="Mosaic/Bento" onClick={handleAddBlock} />
-                    <BlockAdder type="gallery" icon={<ImageIcon className="w-4 h-4" />} label="Filterable Gallery" onClick={handleAddBlock} />
+                    <BlockAdder type="Glimpses" icon={<ImageIcon className="w-4 h-4" />} label="Filterable Glimpses" onClick={handleAddBlock} />
                     <BlockAdder type="heading" icon={<Pilcrow className="w-4 h-4" />} label="Heading" onClick={handleAddBlock} />
                     <BlockAdder type="paragraph" icon={<List className="w-4 h-4" />} label="Text" onClick={handleAddBlock} />
                     <BlockAdder type="section" icon={<Layers className="w-4 h-4" />} label="Section Wrap" onClick={handleAddBlock} />
@@ -246,7 +246,7 @@ export function AdminGalleryBlocks() {
         )}
         <AlertDialog open={!!deleteBlockConfirm} onOpenChange={(isOpen) => !isOpen && setDeleteBlockConfirm(null)}>
             <AlertDialogContent>
-                <AlertDialogHeader><AlertDialogTitle>Remove Block?</AlertDialogTitle><AlertDialogDescription>This will remove this section from your gallery page.</AlertDialogDescription></AlertDialogHeader>
+                <AlertDialogHeader><AlertDialogTitle>Remove Block?</AlertDialogTitle><AlertDialogDescription>This will remove this section from your Glimpses page.</AlertDialogDescription></AlertDialogHeader>
                 <AlertDialogFooter><AlertDialogCancel>Cancel</AlertDialogCancel><AlertDialogAction onClick={handleDeleteBlock} className="bg-destructive hover:bg-destructive/90">Remove</AlertDialogAction></AlertDialogFooter>
             </AlertDialogContent>
         </AlertDialog>
@@ -265,18 +265,19 @@ function BlockAdder({ icon, label, onClick, type }: { icon: React.ReactNode, lab
 
 function getDefaultData(type: string) {
     switch(type) {
-        case 'hero': return { title: 'Our Campus Gallery', subtitle: 'Explore our vibrant life', backgroundType: 'image', backgroundValue: 'https://picsum.photos/seed/g/1200/800', layout: 'centered' };
+        case 'hero': return { title: 'Our Campus Glimpses', subtitle: 'Explore our vibrant life', backgroundType: 'image', backgroundValue: 'https://picsum.photos/seed/g/1200/800', layout: 'centered' };
         case 'image-layout': return { title: 'Life at Campus', layout: 'mosaic', items: [{imageUrl: 'https://picsum.photos/seed/m1/800/800'}] };
-        case 'masonry-gallery': return { title: 'Masonry Gallery', columns: 3, mediaType: 'images', items: [{ mediaUrl: 'https://picsum.photos/seed/m1/800/1000', mediaType: 'image', category: 'Category' }] };
-        case 'featured-gallery': return { title: 'Featured Gallery', featuredItem: { mediaUrl: 'https://picsum.photos/seed/f1/1200/800', mediaType: 'image', title: 'Main Story' }, gridItems: [{ mediaUrl: 'https://picsum.photos/seed/f2/600/600', mediaType: 'image' }] };
-        case 'equal-grid-gallery': return { title: 'Grid Gallery', columns: 3, aspectRatio: '1:1', items: [{ mediaUrl: 'https://picsum.photos/seed/e1/800/800', mediaType: 'image' }] };
-        case 'horizontal-scroll-gallery': return { title: 'Scroll Gallery', items: [{ mediaUrl: 'https://picsum.photos/seed/s1/800/600', mediaType: 'image' }] };
+        case 'masonry-Glimpses': return { title: 'Masonry Glimpses', columns: 3, mediaType: 'images', items: [{ mediaUrl: 'https://picsum.photos/seed/m1/800/1000', mediaType: 'image', category: 'Category' }] };
+        case 'featured-Glimpses': return { title: 'Featured Glimpses', featuredItem: { mediaUrl: 'https://picsum.photos/seed/f1/1200/800', mediaType: 'image', title: 'Main Story' }, gridItems: [{ mediaUrl: 'https://picsum.photos/seed/f2/600/600', mediaType: 'image' }] };
+        case 'equal-grid-Glimpses': return { title: 'Grid Glimpses', columns: 3, aspectRatio: '1:1', items: [{ mediaUrl: 'https://picsum.photos/seed/e1/800/800', mediaType: 'image' }] };
+        case 'horizontal-scroll-Glimpses': return { title: 'Scroll Glimpses', items: [{ mediaUrl: 'https://picsum.photos/seed/s1/800/600', mediaType: 'image' }] };
         case 'fullscreen-slideshow': return { height: '75vh', items: [{ mediaUrl: 'https://picsum.photos/seed/sl1/1920/1080', mediaType: 'image', overlayTitle: 'Hero Slide' }] };
-        case 'video-gallery': return { title: 'Video Gallery', columns: 3, items: [{ videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ', title: 'Featured Video' }] };
-        case 'gallery': return { title: 'Photo Collection', items: [] };
+        case 'video-Glimpses': return { title: 'Video Glimpses', columns: 3, items: [{ videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ', title: 'Featured Video' }] };
+        case 'Glimpses': return { title: 'Photo Collection', items: [] };
         case 'heading': return { text: 'New Section', size: 'h2', alignment: 'center' };
         case 'paragraph': return { content: '' };
         case 'section': return { childBlocks: [] };
         default: return {};
     }
 }
+

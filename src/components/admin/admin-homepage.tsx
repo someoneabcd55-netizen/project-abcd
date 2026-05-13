@@ -252,7 +252,7 @@ export function AdminHomepage() {
                     <BlockAdder type="faq" icon={<HelpCircle className="w-4 h-4" />} label="FAQ" onClick={handleAddBlock} />
                     <BlockAdder type="timeline" icon={<History className="w-4 h-4" />} label="Timeline" onClick={handleAddBlock} />
                     <BlockAdder type="cards" icon={<Layout className="w-4 h-4" />} label="Cards" onClick={handleAddBlock} />
-                    <BlockAdder type="gallery" icon={<ImageIcon className="w-4 h-4" />} label="Gallery" onClick={handleAddBlock} />
+                    <BlockAdder type="Glimpses" icon={<ImageIcon className="w-4 h-4" />} label="Glimpses" onClick={handleAddBlock} />
                     <BlockAdder type="table" icon={<List className="w-4 h-4" />} label="Table" onClick={handleAddBlock} />
                     <BlockAdder type="stats" icon={<Activity className="w-4 h-4" />} label="Stats" onClick={handleAddBlock} />
                 </div>
@@ -324,7 +324,7 @@ function getDefaultData(type: string) {
         case 'faq': return { title: 'FAQ', items: [{question: 'Sample Question?', answer: 'Sample Answer'}] };
         case 'timeline': return { title: 'Timeline', items: [{year: '2024', title: 'Milestone', description: 'Description'}] };
         case 'cards': return { title: 'Cards', items: [{title: 'Card 1', description: 'Details'}] };
-        case 'gallery': return { title: 'Gallery', items: [{imageUrl: 'https://picsum.photos/seed/g1/800/600'}] };
+        case 'Glimpses': return { title: 'Glimpses', items: [{imageUrl: 'https://picsum.photos/seed/g1/800/600'}] };
         case 'table': return { title: 'Table', headers: ['Col 1'], rows: [['Cell 1']] };
         case 'stats': return { title: 'Stats', items: [{label: 'Users', value: '10K+'}] };
         case 'container': return { childBlocks: [] };
@@ -338,3 +338,4 @@ function getDefaultData(type: string) {
         default: return {};
     }
 }
+

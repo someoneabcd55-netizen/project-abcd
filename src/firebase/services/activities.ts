@@ -106,3 +106,4 @@ export async function deleteActivity(id: string) {
     }
     revalidatePath('/admin');
 }
+

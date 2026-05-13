@@ -46,3 +46,4 @@ export async function DualSection({ leftTitle = "Upcoming Events", rightTitle = 
       </div>
   );
 }
+

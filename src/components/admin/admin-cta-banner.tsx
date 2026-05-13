@@ -167,3 +167,4 @@ export function AdminCTABanner({ block, open, onOpenChange, onUpdate }: { block:
         </Dialog>
     );
 }
+

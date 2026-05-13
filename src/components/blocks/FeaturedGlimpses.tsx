@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { Play } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { GalleryLightbox } from './GalleryLightbox';
+import { GlimpsesLightbox } from './GlimpsesLightbox';
 
 interface FeaturedItem {
   mediaUrl: string;
@@ -16,7 +16,7 @@ interface FeaturedItem {
   caption?: string;
 }
 
-interface FeaturedGalleryProps {
+interface FeaturedGlimpsesProps {
   eyebrowLabel?: string;
   title: string;
   subtitle?: string;
@@ -29,7 +29,7 @@ interface FeaturedGalleryProps {
   mediaType?: 'images' | 'videos' | 'mixed';
 }
 
-export function FeaturedGallery({
+export function FeaturedGlimpses({
   eyebrowLabel,
   title,
   subtitle,
@@ -39,7 +39,7 @@ export function FeaturedGallery({
   showFilters = false,
   filterOptions = [],
   lightbox = true
-}: FeaturedGalleryProps) {
+}: FeaturedGlimpsesProps) {
   const [activeFilter, setActiveFilter] = useState('All');
   const [selectedItemIndex, setSelectedItemIndex] = useState<number | null>(null);
 
@@ -147,7 +147,7 @@ export function FeaturedGallery({
         </div>
 
         {selectedItemIndex !== null && (
-          <GalleryLightbox
+          <GlimpsesLightbox
             isOpen={selectedItemIndex !== null}
             onClose={() => setSelectedItemIndex(null)}
             items={allItems.map(i => ({
@@ -163,3 +163,4 @@ export function FeaturedGallery({
     </section>
   );
 }
+

@@ -4,12 +4,12 @@ import HomeRenderer from '@/components/HomeRenderer';
 import { PageHeader } from '@/components/layout/page-header';
 import { unstable_noStore as noStore } from 'next/cache';
 
-export default async function GalleryPage() {
+export default async function GlimpsesPage() {
     noStore();
     
     try {
         const [blocks, appearance] = await Promise.all([
-            getPageBlocks('glimpses').then(b => (b && b.length > 0) ? b : getPageBlocks('gallery')),
+            getPageBlocks('glimpses').then(b => (b && b.length > 0) ? b : getPageBlocks('Glimpses')),
             getAppearanceSettings(),
         ]);
 
@@ -24,8 +24,8 @@ export default async function GalleryPage() {
                     />
                     <div className="container mx-auto px-4 py-32 text-center">
                         <div className="max-w-md mx-auto p-8 border-2 border-dashed border-muted rounded-[2rem] bg-muted/20">
-                            <p className="text-muted-foreground font-medium mb-4">Gallery content is currently being updated.</p>
-                            <p className="text-xs text-muted-foreground/60 italic">Please check back soon or add gallery blocks in the admin dashboard.</p>
+                            <p className="text-muted-foreground font-medium mb-4">Glimpses content is currently being updated.</p>
+                            <p className="text-xs text-muted-foreground/60 italic">Please check back soon or add Glimpses blocks in the admin dashboard.</p>
                         </div>
                     </div>
                 </div>
@@ -38,7 +38,7 @@ export default async function GalleryPage() {
             </div>
         );
     } catch (error) {
-        console.error('Gallery Page Error:', error);
+        console.error('Glimpses Page Error:', error);
         return (
             <div className="min-h-screen flex items-center justify-center p-6">
                 <div className="text-center space-y-6 max-w-lg">
@@ -46,7 +46,7 @@ export default async function GalleryPage() {
                         <span className="text-red-600 text-2xl font-bold">!</span>
                     </div>
                     <h1 className="text-3xl font-bold">Something went wrong</h1>
-                    <p className="text-muted-foreground">We encountered an error loading the gallery. Our team has been notified.</p>
+                    <p className="text-muted-foreground">We encountered an error loading the Glimpses. Our team has been notified.</p>
                     <a href="/" className="inline-block px-8 py-3 bg-navy text-white rounded-full font-bold transition-transform hover:scale-105">
                         Return Home
                     </a>
@@ -55,3 +55,4 @@ export default async function GalleryPage() {
         );
     }
 }
+

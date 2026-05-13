@@ -62,3 +62,4 @@ export async function logoutAdmin(): Promise<never> {
   cookieStore.delete(ADMIN_REFRESH_TOKEN_COOKIE);
   redirect('/login');
 }
+

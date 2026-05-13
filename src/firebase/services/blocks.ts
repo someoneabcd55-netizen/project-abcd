@@ -174,3 +174,4 @@ export async function updatePageBlocks(pageId: string, blocks: Block[]) {
   await revalidatePage(pageId);
   revalidatePath('/admin');
 }
+

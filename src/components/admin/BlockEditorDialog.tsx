@@ -39,7 +39,7 @@ const getDefaultValues = (type: string, existingData: any) => {
     faq: { title: 'FAQ', items: [] },
     timeline: { title: 'History', items: [] },
     cards: { title: 'Features', items: [] },
-    gallery: { title: 'Gallery', items: [] },
+    Glimpses: { title: 'Glimpses', items: [] },
     announcements: { title: 'Announcements', announcements: [] },
     'stats-expanded': { title: 'Stats', items: [] },
     'cta-banner': { heading: 'Ready to join?', subtext: '', btns: [] },
@@ -56,12 +56,12 @@ const getDefaultValues = (type: string, existingData: any) => {
     split: { split: '50/50', gap: 'md', leftBlocks: [], rightBlocks: [] },
     'image-layout': { title: '', layout: 'mosaic', items: [] },
     'map-location': { title: 'Our Location', address: '', email: '', phone: '' },
-    'masonry-gallery': { title: 'Our Gallery', columns: 3, mediaType: 'images', items: [], filterOptions: [] },
-    'featured-gallery': { title: 'Featured Collection', featuredItem: { mediaUrl: '', mediaType: 'image' }, gridItems: [], gridColumns: 2, mediaType: 'images' },
-    'equal-grid-gallery': { title: 'Gallery Grid', columns: 3, aspectRatio: '1:1', hoverStyle: 'overlay', items: [] },
-    'horizontal-scroll-gallery': { title: 'Filmstrip Gallery', itemWidth: 'md', itemHeight: 'md', items: [] },
+    'masonry-Glimpses': { title: 'Our Glimpses', columns: 3, mediaType: 'images', items: [], filterOptions: [] },
+    'featured-Glimpses': { title: 'Featured Collection', featuredItem: { mediaUrl: '', mediaType: 'image' }, gridItems: [], gridColumns: 2, mediaType: 'images' },
+    'equal-grid-Glimpses': { title: 'Glimpses Grid', columns: 3, aspectRatio: '1:1', hoverStyle: 'overlay', items: [] },
+    'horizontal-scroll-Glimpses': { title: 'Filmstrip Glimpses', itemWidth: 'md', itemHeight: 'md', items: [] },
     'fullscreen-slideshow': { height: '75vh', autoplay: true, autoplayDelay: 5000, transition: 'fade', items: [] },
-    'video-gallery': { title: 'Video Gallery', columns: 3, videoSource: 'mixed', items: [] },
+    'video-Glimpses': { title: 'Video Glimpses', columns: 3, videoSource: 'mixed', items: [] },
   };
 
   return { ...(defaults[type] || {}), ...(existingData || {}) };
@@ -342,15 +342,15 @@ function RenderFields({ type, form, onEditNested }: { type: string, form: any, o
         </>
       )}
 
-      {type === 'gallery' && (
+      {type === 'Glimpses' && (
         <>
           <FormField control={control} name="title" render={({ field }) => (
             <FormItem className="col-span-2"><FormLabel>Title</FormLabel><FormControl><Input {...field} value={field.value || ''} /></FormControl><FormMessage /></FormItem>
           )} />
-          {renderListEditor('items', 'Gallery Images', (i) => (
+          {renderListEditor('items', 'Glimpses Images', (i) => (
             <>
               <FormField control={control} name={`items.${i}.imageUrl`} render={({ field }) => (
-                <FormItem className="col-span-2"><FormLabel>Image</FormLabel><AdminImageUploadField value={field.value} onChange={field.onChange} previewAlt="Gallery" folder="gallery" /></FormItem>
+                <FormItem className="col-span-2"><FormLabel>Image</FormLabel><AdminImageUploadField value={field.value} onChange={field.onChange} previewAlt="Glimpses" folder="Glimpses" /></FormItem>
               )} />
               <FormField control={control} name={`items.${i}.title`} render={({ field }) => (
                 <FormItem><FormLabel>Title</FormLabel><FormControl><Input {...field} value={field.value || ''} /></FormControl><FormMessage /></FormItem>
@@ -663,7 +663,7 @@ function RenderFields({ type, form, onEditNested }: { type: string, form: any, o
           {renderListEditor('items', 'Layout Images', (i) => (
             <>
               <FormField control={control} name={`items.${i}.imageUrl`} render={({ field }) => (
-                <FormItem className="col-span-2"><FormLabel>Image</FormLabel><AdminImageUploadField value={field.value} onChange={field.onChange} previewAlt="Layout Image" folder="gallery" /></FormItem>
+                <FormItem className="col-span-2"><FormLabel>Image</FormLabel><AdminImageUploadField value={field.value} onChange={field.onChange} previewAlt="Layout Image" folder="Glimpses" /></FormItem>
               )} />
               <FormField control={control} name={`items.${i}.title`} render={({ field }) => (
                 <FormItem><FormLabel>Title</FormLabel><FormControl><Input {...field} value={field.value || ''} /></FormControl><FormMessage /></FormItem>
@@ -676,7 +676,7 @@ function RenderFields({ type, form, onEditNested }: { type: string, form: any, o
         </>
       )}
 
-      {type === 'masonry-gallery' && (
+      {type === 'masonry-Glimpses' && (
         <>
           <FormField control={control} name="title" render={({ field }) => (
             <FormItem className="col-span-2"><FormLabel>Title</FormLabel><FormControl><Input {...field} value={field.value || ''} /></FormControl></FormItem>
@@ -690,7 +690,7 @@ function RenderFields({ type, form, onEditNested }: { type: string, form: any, o
           <FormField control={control} name="mediaType" render={({ field }) => (
             <FormItem><FormLabel>Allowed Media</FormLabel><Select onValueChange={field.onChange} defaultValue={field.value}><FormControl><SelectTrigger><SelectValue /></SelectTrigger></FormControl><SelectContent><SelectItem value="images">Images Only</SelectItem><SelectItem value="videos">Videos Only</SelectItem><SelectItem value="mixed">Mixed</SelectItem></SelectContent></Select></FormItem>
           )} />
-          {renderListEditor('items', 'Gallery Items', (i) => (
+          {renderListEditor('items', 'Glimpses Items', (i) => (
             <>
               <FormField control={control} name={`items.${i}.mediaType`} render={({ field }) => (
                 <FormItem><FormLabel>Type</FormLabel><Select onValueChange={field.onChange} defaultValue={field.value}><FormControl><SelectTrigger><SelectValue /></SelectTrigger></FormControl><SelectContent><SelectItem value="image">Image</SelectItem><SelectItem value="video">Video</SelectItem></SelectContent></Select></FormItem>
@@ -698,7 +698,7 @@ function RenderFields({ type, form, onEditNested }: { type: string, form: any, o
               <FormField control={control} name={`items.${i}.mediaUrl`} render={({ field }) => (
                 <FormItem className="col-span-2">
                   <FormLabel>Media URL</FormLabel>
-                  <AdminImageUploadField value={field.value} onChange={field.onChange} previewAlt="Media" folder="gallery" />
+                  <AdminImageUploadField value={field.value} onChange={field.onChange} previewAlt="Media" folder="Glimpses" />
                 </FormItem>
               )} />
               <FormField control={control} name={`items.${i}.category`} render={({ field }) => (
@@ -712,7 +712,7 @@ function RenderFields({ type, form, onEditNested }: { type: string, form: any, o
         </>
       )}
 
-      {type === 'featured-gallery' && (
+      {type === 'featured-Glimpses' && (
         <>
           <FormField control={control} name="title" render={({ field }) => (
             <FormItem className="col-span-2"><FormLabel>Title</FormLabel><FormControl><Input {...field} value={field.value || ''} /></FormControl></FormItem>
@@ -720,7 +720,7 @@ function RenderFields({ type, form, onEditNested }: { type: string, form: any, o
           <div className="col-span-2 p-6 border rounded-3xl bg-primary/5 space-y-4">
             <h4 className="font-bold">Featured Main Item</h4>
             <FormField control={control} name="featuredItem.mediaUrl" render={({ field }) => (
-              <FormItem><FormLabel>Media</FormLabel><AdminImageUploadField value={field.value} onChange={field.onChange} previewAlt="Featured" folder="gallery" /></FormItem>
+              <FormItem><FormLabel>Media</FormLabel><AdminImageUploadField value={field.value} onChange={field.onChange} previewAlt="Featured" folder="Glimpses" /></FormItem>
             )} />
             <div className="grid grid-cols-2 gap-4">
               <FormField control={control} name="featuredItem.title" render={({ field }) => (
@@ -734,7 +734,7 @@ function RenderFields({ type, form, onEditNested }: { type: string, form: any, o
           {renderListEditor('gridItems', 'Supporting Grid Items', (i) => (
             <>
               <FormField control={control} name={`gridItems.${i}.mediaUrl`} render={({ field }) => (
-                <FormItem className="col-span-2"><AdminImageUploadField value={field.value} onChange={field.onChange} previewAlt="Grid Item" folder="gallery" /></FormItem>
+                <FormItem className="col-span-2"><AdminImageUploadField value={field.value} onChange={field.onChange} previewAlt="Grid Item" folder="Glimpses" /></FormItem>
               )} />
               <FormField control={control} name={`gridItems.${i}.title`} render={({ field }) => (
                 <FormItem><FormLabel>Title</FormLabel><FormControl><Input {...field} value={field.value || ''} /></FormControl></FormItem>
@@ -747,7 +747,7 @@ function RenderFields({ type, form, onEditNested }: { type: string, form: any, o
         </>
       )}
 
-      {type === 'equal-grid-gallery' && (
+      {type === 'equal-grid-Glimpses' && (
         <>
           <FormField control={control} name="title" render={({ field }) => (
             <FormItem className="col-span-2"><FormLabel>Title</FormLabel><FormControl><Input {...field} value={field.value || ''} /></FormControl></FormItem>
@@ -761,7 +761,7 @@ function RenderFields({ type, form, onEditNested }: { type: string, form: any, o
           {renderListEditor('items', 'Grid Media', (i) => (
             <>
               <FormField control={control} name={`items.${i}.mediaUrl`} render={({ field }) => (
-                <FormItem className="col-span-2"><AdminImageUploadField value={field.value} onChange={field.onChange} previewAlt="Grid" folder="gallery" /></FormItem>
+                <FormItem className="col-span-2"><AdminImageUploadField value={field.value} onChange={field.onChange} previewAlt="Grid" folder="Glimpses" /></FormItem>
               )} />
               <FormField control={control} name={`items.${i}.title`} render={({ field }) => (
                 <FormItem><FormLabel>Title</FormLabel><FormControl><Input {...field} value={field.value || ''} /></FormControl></FormItem>
@@ -771,7 +771,7 @@ function RenderFields({ type, form, onEditNested }: { type: string, form: any, o
         </>
       )}
 
-      {type === 'horizontal-scroll-gallery' && (
+      {type === 'horizontal-scroll-Glimpses' && (
         <>
           <FormField control={control} name="title" render={({ field }) => (
             <FormItem className="col-span-2"><FormLabel>Title</FormLabel><FormControl><Input {...field} value={field.value || ''} /></FormControl></FormItem>
@@ -785,7 +785,7 @@ function RenderFields({ type, form, onEditNested }: { type: string, form: any, o
           {renderListEditor('items', 'Scroll Items', (i) => (
             <>
               <FormField control={control} name={`items.${i}.mediaUrl`} render={({ field }) => (
-                <FormItem className="col-span-2"><AdminImageUploadField value={field.value} onChange={field.onChange} previewAlt="Scroll" folder="gallery" /></FormItem>
+                <FormItem className="col-span-2"><AdminImageUploadField value={field.value} onChange={field.onChange} previewAlt="Scroll" folder="Glimpses" /></FormItem>
               )} />
               <FormField control={control} name={`items.${i}.title`} render={({ field }) => (
                 <FormItem><FormLabel>Title</FormLabel><FormControl><Input {...field} value={field.value || ''} /></FormControl></FormItem>
@@ -809,7 +809,7 @@ function RenderFields({ type, form, onEditNested }: { type: string, form: any, o
           {renderListEditor('items', 'Slides', (i) => (
             <>
               <FormField control={control} name={`items.${i}.mediaUrl`} render={({ field }) => (
-                <FormItem className="col-span-2"><AdminImageUploadField value={field.value} onChange={field.onChange} previewAlt="Slide" folder="gallery" /></FormItem>
+                <FormItem className="col-span-2"><AdminImageUploadField value={field.value} onChange={field.onChange} previewAlt="Slide" folder="Glimpses" /></FormItem>
               )} />
               <FormField control={control} name={`items.${i}.overlayTitle`} render={({ field }) => (
                 <FormItem><FormLabel>Overlay Title</FormLabel><FormControl><Input {...field} value={field.value || ''} /></FormControl></FormItem>
@@ -822,10 +822,10 @@ function RenderFields({ type, form, onEditNested }: { type: string, form: any, o
         </>
       )}
 
-      {type === 'video-gallery' && (
+      {type === 'video-Glimpses' && (
         <>
           <FormField control={control} name="title" render={({ field }) => (
-            <FormItem className="col-span-2"><FormLabel>Gallery Title</FormLabel><FormControl><Input {...field} value={field.value || ''} /></FormControl></FormItem>
+            <FormItem className="col-span-2"><FormLabel>Glimpses Title</FormLabel><FormControl><Input {...field} value={field.value || ''} /></FormControl></FormItem>
           )} />
           <FormField control={control} name="columns" render={({ field }) => (
             <FormItem><FormLabel>Columns</FormLabel><FormControl><Input type="number" {...field} onChange={e => field.onChange(e.target.value === '' ? '' : parseInt(e.target.value))} value={field.value ?? ''} /></FormControl></FormItem>
@@ -855,3 +855,4 @@ function RenderFields({ type, form, onEditNested }: { type: string, form: any, o
     </>
   );
 }
+

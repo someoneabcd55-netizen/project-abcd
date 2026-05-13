@@ -100,3 +100,4 @@ function ContactItem({ icon, label, value, theme, size = 'md' }: any) {
         </div>
     )
 }
+

@@ -7,14 +7,14 @@ import { cn } from '@/lib/utils';
 import { Maximize2, X, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 
-interface GalleryItem {
+interface GlimpsesItem {
   imageUrl: string;
   category: string;
   title: string;
   caption?: string;
 }
 
-interface GalleryProps {
+interface GlimpsesProps {
   eyebrowLabel?: string;
   title: string;
   subtitle?: string;
@@ -22,13 +22,13 @@ interface GalleryProps {
   columns?: number;
   showFilters?: boolean;
   filterOptions?: string[];
-  items: GalleryItem[];
+  items: GlimpsesItem[];
   lightbox?: boolean;
 }
 
 import { Button } from '@/components/ui/button';
 
-export function Gallery({
+export function Glimpses({
   eyebrowLabel,
   title,
   subtitle,
@@ -37,7 +37,7 @@ export function Gallery({
   showFilters = true,
   items = [],
   lightbox = true,
-}: GalleryProps) {
+}: GlimpsesProps) {
   const [activeFilter, setActiveFilter] = useState('All');
   const [selectedImageIdx, setSelectedImageIdx] = useState<number | null>(null);
   
@@ -97,7 +97,7 @@ export function Gallery({
             >
               <Image 
                 src={item.imageUrl} 
-                alt={item.title || 'Gallery image'} 
+                alt={item.title || 'Glimpses image'} 
                 fill
                 className="object-cover transition-transform duration-1000 group-hover:scale-110"
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
@@ -123,7 +123,7 @@ export function Gallery({
       <Dialog open={selectedImageIdx !== null} onOpenChange={(open) => !open && setSelectedImageIdx(null)}>
         <DialogContent className="max-w-[95vw] md:max-w-6xl p-0 overflow-hidden border-none bg-black/95 shadow-none backdrop-blur-xl h-[90vh]">
           <DialogHeader className="sr-only">
-            <DialogTitle>{selectedImage?.title || 'Gallery Image'}</DialogTitle>
+            <DialogTitle>{selectedImage?.title || 'Glimpses Image'}</DialogTitle>
           </DialogHeader>
           
           <div className="relative w-full h-full flex items-center justify-center p-4 md:p-12">
@@ -185,3 +185,4 @@ export function Gallery({
     </section>
   );
 }
+

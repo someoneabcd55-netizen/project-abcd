@@ -41,3 +41,4 @@ export const departments = [
   { name: 'Business Administration', slug: 'business-administration' },
   { name: 'Arts & Humanities', slug: 'arts-humanities' },
 ];
+

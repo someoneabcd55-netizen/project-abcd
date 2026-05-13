@@ -130,3 +130,4 @@ export function StatsExpandedBlock({ title, subtitle, items, theme }: StatsExpan
     </section>
   );
 }
+

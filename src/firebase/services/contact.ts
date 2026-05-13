@@ -39,3 +39,4 @@ export async function updateContactInfo(payload: ContactInfo) {
     revalidatePath('/'); // For footer
     revalidatePath('/admin');
 }
+

@@ -98,3 +98,4 @@ export async function deleteDepartment(id: string) {
     }
     revalidatePath('/admin');
 }
+
