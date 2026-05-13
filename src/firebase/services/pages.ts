@@ -19,7 +19,7 @@ const EXPECTED_PAGES = [
     { slug: 'faculty', title: 'Faculty', order: 3, visible: true },
     { slug: 'admissions', title: 'Admissions', order: 4, visible: true },
     { slug: 'events', title: 'Events', order: 6, visible: true },
-    { slug: 'Glimpses', title: 'Glimpses', order: 7, visible: true },
+    { slug: 'gallery', title: 'Gallery', order: 7, visible: true },
     { slug: 'contact', title: 'Contact', order: 8, visible: true },
 ]
 
@@ -84,36 +84,48 @@ const getPagesPublicCached = unstable_cache(
   { revalidate: 3600, tags: ['pages-public'] }
 );
 
-// Public read for a single page by slug
+// Public read for a single page by slug — case-insensitive, alias-aware
 export async function getPageBySlug(slug: string): Promise<Page | null> {
+  const lower = slug.toLowerCase().trim();
+
   if (shouldUseFallbackData()) {
-    return fallbackPages.find(page => page.slug === slug) ?? null;
+    return fallbackPages.find(page => page.slug.toLowerCase() === lower) ?? null;
   }
+
+  // gallery and glimpses are treated as the same page
+  const slugAliases: Record<string, string[]> = {
+    gallery:  ['gallery', 'glimpses', 'Glimpses'],
+    glimpses: ['glimpses', 'gallery', 'Glimpses'],
+    Glimpses: ['Glimpses', 'glimpses', 'gallery'],
+  };
+  const candidateSlugs = slugAliases[slug] ?? [slug, lower];
 
   try {
     const adminDb = getAdminDb();
     const pagesRef = adminDb.collection('pages');
-    const q = pagesRef.where('slug', '==', slug).limit(1);
-    const snapshot = await q.get();
 
-    if (snapshot.empty) {
-        // If a standard page is missing, try a one-time seed check and refetch.
-        if (EXPECTED_PAGES.some(p => p.slug === slug)) {
-            await ensurePagesSeeded();
-            const refetchSnapshot = await q.get();
-            if (!refetchSnapshot.empty) {
-                const doc = refetchSnapshot.docs[0];
-                return { id: doc.id, ...doc.data() } as Page;
-            }
-        }
-        return null;
+    for (const candidate of candidateSlugs) {
+      const snapshot = await pagesRef.where('slug', '==', candidate).limit(1).get();
+      if (!snapshot.empty) {
+        const doc = snapshot.docs[0];
+        return { id: doc.id, ...doc.data() } as Page;
+      }
     }
 
-    const doc = snapshot.docs[0];
-    return { id: doc.id, ...doc.data() } as Page;
+    // Page not found — attempt seed and retry
+    if (EXPECTED_PAGES.some(p => p.slug === lower || p.slug === slug)) {
+      await ensurePagesSeeded();
+      const retry = await pagesRef.where('slug', '==', lower).limit(1).get();
+      if (!retry.empty) {
+        const doc = retry.docs[0];
+        return { id: doc.id, ...doc.data() } as Page;
+      }
+    }
+
+    return null;
   } catch (error) {
-    console.warn(`Using fallback page for slug "${slug}" because Firestore is unavailable.`, error);
-    return fallbackPages.find(page => page.slug === slug) ?? null;
+    console.warn(`Using fallback page for slug "${slug}" because Firestore is unavailable.`);
+    return fallbackPages.find(page => page.slug.toLowerCase() === lower) ?? null;
   }
 }
 
