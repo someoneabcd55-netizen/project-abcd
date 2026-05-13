@@ -65,7 +65,7 @@ export default function AdminDashboardPage() {
             <Calendar className="mr-2 h-4 w-4" />
             Events
           </TabsTrigger>
-           <TabsTrigger value="Glimpses">
+           <TabsTrigger value="glimpses">
             <ImageIcon className="mr-2 h-4 w-4" />
             Glimpses
           </TabsTrigger>
@@ -149,12 +149,12 @@ export default function AdminDashboardPage() {
                 <AdminEvents />
             </Card>
         </TabsContent>
-         <TabsContent value="Glimpses">
+         <TabsContent value="glimpses">
             <Card>
                 <CardHeader>
                     <CardTitle>Glimpses Page Layout</CardTitle>
                     <CardDescription>
-                        Create creative layouts with Mosaic, Bento, and Filterable Galleries.
+                        Create creative layouts with Mosaic, Bento, and Filterable Glimpses.
                     </CardDescription>
                 </CardHeader>
                 <AdminGlimpsesBlocks />
