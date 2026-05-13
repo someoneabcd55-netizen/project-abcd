@@ -1,22 +1,23 @@
-import { getTeamMembers } from '@/firebase/services/team';
-import { FacultySearch } from './faculty-search';
+import { getPageBlocks } from '@/firebase/services/blocks';
+import HomeRenderer from '@/components/HomeRenderer';
+import { getAppearanceSettings } from '@/firebase/services/settings';
 
 export const revalidate = 3600; // Revalidate every hour
 
 export default async function FacultyPage() {
-  const faculty = await getTeamMembers();
+  const [blocks, appearance] = await Promise.all([
+    getPageBlocks('faculty'),
+    getAppearanceSettings(),
+  ]);
 
-  return (
-    <div className="container mx-auto px-4 py-12 md:px-6">
-      <div className="text-center">
-        <h1 className="font-headline text-4xl font-bold tracking-tight md:text-5xl">
-          Our Faculty
-        </h1>
-        <p className="mt-4 mx-auto max-w-2xl text-lg text-muted-foreground">
-          Meet the brilliant minds shaping the future of education and research at G V Hallikeri PU college.
-        </p>
+  if (!blocks || blocks.length === 0) {
+    return (
+      <div className="container mx-auto px-4 py-12 md:px-6 text-center">
+        <h1 className="text-4xl font-bold mb-4">Faculty</h1>
+        <p className="text-muted-foreground">This page is not yet configured. Add blocks in the admin dashboard.</p>
       </div>
-      <FacultySearch faculty={faculty} />
-    </div>
-  );
+    );
+  }
+
+  return <HomeRenderer blocks={blocks} theme={appearance?.theme} />;
 }

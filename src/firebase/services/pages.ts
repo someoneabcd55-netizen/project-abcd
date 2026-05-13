@@ -1,6 +1,7 @@
 'use server';
 import { revalidatePath, revalidateTag, unstable_cache } from 'next/cache';
 import { getAdminDb } from '@/firebase/server-init';
+import { fallbackPages, shouldUseFallbackData } from './fallback-data';
 
 export interface Page {
   id: string;
@@ -62,13 +63,22 @@ export async function getPagesPublic(): Promise<Page[]> {
 
 const getPagesPublicCached = unstable_cache(
   async (): Promise<Page[]> => {
-    await ensurePagesSeeded();
-    const adminDb = getAdminDb();
-    const pagesCollection = adminDb.collection('pages');
-    const q = pagesCollection.orderBy('order_position', 'asc');
-    const snapshot = await q.get();
-    const allPages = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Page));
-    return allPages.filter(page => page.visible);
+    if (shouldUseFallbackData()) {
+      return fallbackPages.filter(page => page.visible);
+    }
+
+    try {
+      await ensurePagesSeeded();
+      const adminDb = getAdminDb();
+      const pagesCollection = adminDb.collection('pages');
+      const q = pagesCollection.orderBy('order_position', 'asc');
+      const snapshot = await q.get();
+      const allPages = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Page));
+      return allPages.filter(page => page.visible);
+    } catch (error) {
+      console.warn('Using fallback public pages because Firestore is unavailable.', error);
+      return fallbackPages.filter(page => page.visible);
+    }
   },
   ['pages-public'],
   { revalidate: 3600, tags: ['pages-public'] }
@@ -76,6 +86,11 @@ const getPagesPublicCached = unstable_cache(
 
 // Public read for a single page by slug
 export async function getPageBySlug(slug: string): Promise<Page | null> {
+  if (shouldUseFallbackData()) {
+    return fallbackPages.find(page => page.slug === slug) ?? null;
+  }
+
+  try {
     const adminDb = getAdminDb();
     const pagesRef = adminDb.collection('pages');
     const q = pagesRef.where('slug', '==', slug).limit(1);
@@ -96,6 +111,10 @@ export async function getPageBySlug(slug: string): Promise<Page | null> {
 
     const doc = snapshot.docs[0];
     return { id: doc.id, ...doc.data() } as Page;
+  } catch (error) {
+    console.warn(`Using fallback page for slug "${slug}" because Firestore is unavailable.`, error);
+    return fallbackPages.find(page => page.slug === slug) ?? null;
+  }
 }
 
 

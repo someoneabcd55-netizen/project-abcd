@@ -91,7 +91,7 @@ export function AdminContact() {
                     )} />
                 </div>
                 <FormField control={form.control} name="address" render={({ field }) => (
-                    <FormItem><FormLabel>Address</FormLabel><FormControl><Textarea className="min-h-[100px]" placeholder="G. V. Hallikeri College,&#10;Hosaritti, Haveri,&#10;Karnataka, 581110" {...field} /></FormControl><FormMessage /></FormItem>
+                  <FormItem><FormLabel>Address</FormLabel><FormControl><Textarea className="min-h-[100px]" placeholder="Modern School,&#10;Hosaritti, Haveri,&#10;Karnataka, 581110" {...field} /></FormControl><FormMessage /></FormItem>
                 )} />
                 <CardFooter className="px-0 pt-6 flex justify-end">
                     <Button type="submit" disabled={isSubmitting}>

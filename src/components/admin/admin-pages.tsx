@@ -82,8 +82,9 @@ function SortablePageItem({ page, onUpdate }: { page: Page; onUpdate: () => void
     }
   };
   
-  const isContentManagedExternally = ['home', 'departments', 'activities'].includes(page.slug);
-  const isDeleteDisabled = ['home', 'departments', 'activities'].includes(page.slug);
+  const PROTECTED_SLUGS = ['home', 'departments', 'activities', 'faculty', 'admissions', 'gallery', 'events', 'contact'];
+  const isContentManagedExternally = PROTECTED_SLUGS.includes(page.slug);
+  const isDeleteDisabled = PROTECTED_SLUGS.includes(page.slug);
 
 
   return (

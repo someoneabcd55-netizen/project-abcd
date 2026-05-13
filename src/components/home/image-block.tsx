@@ -1,6 +1,12 @@
 import Image from "next/image";
 
-export function ImageBlock({ imageUrl, alt, height = "60vh" }) {
+type ImageBlockProps = {
+  imageUrl: string;
+  alt?: string;
+  height?: string;
+};
+
+export function ImageBlock({ imageUrl, alt, height = "60vh" }: ImageBlockProps) {
   return (
     <section className="relative w-full" style={{ height }}>
       <Image

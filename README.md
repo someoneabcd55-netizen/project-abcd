@@ -1,4 +1,4 @@
-# G V Hallikeri PU college - Technical Overview
+# Modern School - Technical Overview
 
 This project is built with Next.js and Firebase.
 

@@ -1,6 +1,7 @@
 'use server';
 import { revalidatePath, revalidateTag, unstable_cache } from 'next/cache';
 import { getAdminDb } from '@/firebase/server-init';
+import { fallbackFooterContent, shouldUseFallbackData } from './fallback-data';
 
 export interface FooterLink {
     label: string;
@@ -13,7 +14,7 @@ export interface FooterLinkColumn {
 }
 
 export interface SocialLink {
-    platform: 'Facebook' | 'Twitter' | 'LinkedIn' | 'Instagram' | 'YouTube';
+    platform: 'Facebook' | 'Twitter' | 'LinkedIn' | 'Instagram' | 'Youtube';
     url: string;
 }
 
@@ -30,13 +31,22 @@ export async function getFooterContent(): Promise<FooterContent | null> {
 
 const getFooterContentCached = unstable_cache(
   async (): Promise<FooterContent | null> => {
-    const adminDb = getAdminDb();
-    const footerDocRef = adminDb.doc('footer_content/main');
-    const snapshot = await footerDocRef.get();
-    if (snapshot.exists) {
-      return snapshot.data() as FooterContent;
+    if (shouldUseFallbackData()) {
+      return fallbackFooterContent;
     }
-    return null;
+
+    try {
+      const adminDb = getAdminDb();
+      const footerDocRef = adminDb.doc('footer_content/main');
+      const snapshot = await footerDocRef.get();
+      if (snapshot.exists) {
+        return snapshot.data() as FooterContent;
+      }
+      return fallbackFooterContent;
+    } catch (error) {
+      console.warn('Using fallback footer because Firestore is unavailable.', error);
+      return fallbackFooterContent;
+    }
   },
   ['footer-content'],
   { revalidate: 3600, tags: ['footer-content'] }

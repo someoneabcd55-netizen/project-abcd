@@ -59,6 +59,138 @@
   }
 }
 
+/* Theme 2: Professional (Navy/Red) */
+.theme2 {
+  --background: 0 0% 100%;
+  --foreground: 222.2 47.4% 11.2%;
+  
+  --surface: 210 20% 98%;
+  --surface-2: 210 20% 96%;
+  
+  --navy: 224 64% 15%;
+  --navy-light: 224 52% 18%;
+  --accent: 354 67% 48%;
+  
+  --primary: 224 64% 15%;
+  --primary-foreground: 210 40% 98%;
+  
+  --secondary: 210 40% 96.1%;
+  --secondary-foreground: 222.2 47.4% 11.2%;
+  
+  --muted: 210 40% 96.1%;
+  --muted-foreground: 215.4 16.3% 46.9%;
+  
+  --accent-color: 354 67% 48%;
+  --accent-foreground: 210 40% 98%;
+  
+  --border: 214.3 31.8% 91.4%;
+  --input: 214.3 31.8% 91.4%;
+  --ring: 354 67% 48%;
+  
+  --radius: 0.5rem;
+
+  --text-primary: #0d1b3e;
+  --text-secondary: #4b5563;
+  --text-muted: #9ca3af;
+  
+  --font-headline: var(--font-bebas-neue), sans-serif;
+  --font-body: var(--font-manrope), sans-serif;
+}
+
+.theme2 .font-headline {
+  font-family: var(--font-headline);
+  letter-spacing: 0.05em;
+}
+
+.theme2 .font-body {
+  font-family: var(--font-body);
+}
+
+.theme2 h1, .theme2 h2, .theme2 h3, .theme2 h4, .theme2 h5, .theme2 h6 {
+  font-family: var(--font-headline);
+}
+
+.theme2 body {
+  font-family: var(--font-body);
+  color: var(--text-primary);
+}
+
+/* Theme 3: Dark Premium (Indigo) */
+.theme3 {
+  --background: #0a0f1e;
+  --foreground: 210 40% 98%;
+  --surface: #111827;
+  --surface-2: #1f2937;
+  --accent: #6366f1;
+  --accent-hover: #4f46e5;
+  --text-primary: #f9fafb;
+  --text-secondary: #9ca3af;
+  --text-muted: #6b7280;
+  --border: rgba(255, 255, 255, 0.08);
+  --border-accent: rgba(99, 102, 241, 0.5);
+
+  /* Map to standard variables for Shadcn components */
+  --primary: 226 82% 67%;
+  --primary-foreground: 210 40% 98%;
+  --secondary: 217.2 32.6% 17.5%;
+  --secondary-foreground: 210 40% 98%;
+  --muted: 217.2 32.6% 17.5%;
+  --muted-foreground: 215 27.9% 60%;
+  --ring: 226 82% 67%;
+  
+  background-color: var(--background);
+  color: var(--text-primary);
+  font-family: var(--font-dm-sans), sans-serif;
+}
+
+.theme3 h1,
+.theme3 h2,
+.theme3 h3,
+.theme3 h4,
+.theme3 h5,
+.theme3 h6,
+.theme3 .font-headline {
+  font-family: var(--font-playfair), serif;
+}
+
+.theme3 .font-body {
+  font-family: var(--font-dm-sans), sans-serif;
+}
+
+/* Global Micro-interactions for Theme 3 */
+.theme3 * {
+  transition: all 0.2s ease;
+}
+
+.theme3 .btn-premium {
+  background: linear-gradient(to right, #6366f1, #a855f7);
+  border-radius: 9999px;
+  box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+}
+
+.theme3 .btn-premium:hover {
+  transform: scale(1.02);
+  box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
+}
+
+.theme3 .card-premium {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+
+.theme3 .card-premium:hover {
+  transform: translateY(-4px);
+  border-color: var(--border-accent);
+  box-shadow: 0 10px 30px -10px rgba(99, 102, 241, 0.3);
+}
+
+.theme3 .glass-nav {
+  background-color: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+}
+
 @layer base {
   * {
     @apply border-border;
@@ -73,4 +205,10 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+.glass-morphism {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }

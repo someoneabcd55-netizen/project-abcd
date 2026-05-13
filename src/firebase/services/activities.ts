@@ -2,6 +2,7 @@
 import { getFirestore } from 'firebase-admin/firestore';
 import { revalidatePath } from 'next/cache';
 import { getAdminDb } from '@/firebase/server-init';
+import { fallbackActivities, shouldUseFallbackData } from './fallback-data';
 
 export interface Course {
   id: string;
@@ -24,14 +25,28 @@ export interface Activity {
 
 // PUBLIC READ
 export async function getActivities(): Promise<Activity[]> {
-  const adminDb = getAdminDb();
-  const activitiesCollection = adminDb.collection('activities');
-  const snapshot = await activitiesCollection.orderBy('name', 'asc').get();
-  return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Activity));
+  if (shouldUseFallbackData()) {
+    return fallbackActivities;
+  }
+
+  try {
+    const adminDb = getAdminDb();
+    const activitiesCollection = adminDb.collection('activities');
+    const snapshot = await activitiesCollection.orderBy('name', 'asc').get();
+    return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Activity));
+  } catch (error) {
+    console.warn('Using fallback activities because Firestore is unavailable.', error);
+    return fallbackActivities;
+  }
 }
 
 // PUBLIC READ
 export async function getActivityBySlug(slug: string): Promise<Activity | null> {
+  if (shouldUseFallbackData()) {
+    return fallbackActivities.find(activity => activity.slug === slug) ?? null;
+  }
+
+  try {
     const adminDb = getAdminDb();
     const activitiesCollection = adminDb.collection('activities');
     const q = activitiesCollection.where('slug', '==', slug);
@@ -41,6 +56,10 @@ export async function getActivityBySlug(slug: string): Promise<Activity | null> 
     }
     const doc = snapshot.docs[0];
     return { id: doc.id, ...doc.data() } as Activity;
+  } catch (error) {
+    console.warn(`Using fallback activity for slug "${slug}" because Firestore is unavailable.`, error);
+    return fallbackActivities.find(activity => activity.slug === slug) ?? null;
+  }
 }
 
 // ADMIN WRITE - ADD

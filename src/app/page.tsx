@@ -1,11 +1,15 @@
 import { getPageBlocks } from '@/firebase/services/blocks';
 import HomeRenderer from '@/components/HomeRenderer';
 import { notFound } from 'next/navigation';
+import { getAppearanceSettings } from '@/firebase/services/settings';
 
 export const revalidate = 3600; // Revalidate every hour
 
 export default async function Home() {
-    const blocks = await getPageBlocks('home');
+    const [blocks, appearance] = await Promise.all([
+        getPageBlocks('home'),
+        getAppearanceSettings(),
+    ]);
 
     if (!blocks) {
         return <div className="container mx-auto my-12 text-center text-muted-foreground">
@@ -14,5 +18,5 @@ export default async function Home() {
         </div>
     }
 
-    return <HomeRenderer blocks={blocks} />;
+    return <HomeRenderer blocks={blocks} theme={appearance?.theme} />;
 }

@@ -38,9 +38,9 @@ const footerFormSchema = z.object({
 type FooterFormValues = z.infer<typeof footerFormSchema>;
 
 const defaultFooterValues: FooterFormValues = {
-    linkColumns: [],
-    socialLinks: [],
-    copyrightText: `© ${new Date().getFullYear()} G V Hallikeri PU college. All Rights Reserved.`,
+  linkColumns: [],
+  socialLinks: [],
+  copyrightText: `© ${new Date().getFullYear()} Modern School. All Rights Reserved.`,
 };
 
 export function AdminFooter() {

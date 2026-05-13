@@ -23,7 +23,7 @@ function getAdminApp() {
 
 const adminApp = getAdminApp();
 let adminStorage = getStorage(adminApp);
-const bucketName = process.env.FIREBASE_STORAGE_BUCKET || 'g-v-hallikeri-pu-college.appspot.com';
+const bucketName = process.env.FIREBASE_STORAGE_BUCKET || 'modern-school.appspot.com';
 
 function getPathFromUrl(url: string): string | null {
     try {

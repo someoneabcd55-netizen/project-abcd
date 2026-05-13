@@ -127,8 +127,8 @@ const siteChatFlow = ai.defineFlow(
 
     try {
       const response = await ai.generate({
-        system: `You are a helpful and polite AI assistant for G V Hallikeri PU college. 
-        Your goal is to assist students, parents, and visitors by providing accurate information about the college.
+        system: `You are a helpful and polite AI assistant for Modern School. 
+        Your goal is to assist students, parents, and visitors by providing accurate information about the school.
         
         You have access to tools to look up departments, activities (like NCC/NSS), faculty, events, and contact info. 
         Always use these tools if the user asks about specific offerings, people, or details of the college.

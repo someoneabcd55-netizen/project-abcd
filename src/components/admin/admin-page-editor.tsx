@@ -23,10 +23,19 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
-import { Loader2, GripVertical, Edit, Trash2, Image as ImageIcon, Pilcrow, Type, Film } from 'lucide-react';
+import { Loader2, GripVertical, Edit, Trash2, Image as ImageIcon, Pilcrow, Type, Film, Newspaper, MessageSquareQuote, HelpCircle, History, Activity, Zap, Users, PlayCircle, MapPin } from 'lucide-react';
 import { Switch } from '@/components/ui/switch';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '../ui/alert-dialog';
 import { AdminImageUploadField } from './admin-image-upload-field';
+import { AdminAnnouncements } from './admin-announcements';
+import { AdminTestimonials } from './admin-testimonials';
+import { AdminFAQ } from './admin-faq';
+import { AdminTimeline } from './admin-timeline';
+import { AdminStatsExpanded } from './admin-stats-expanded';
+import { AdminCTABanner } from './admin-cta-banner';
+import { AdminTeamShowcase } from './admin-team-showcase';
+import { AdminVideoEmbed } from './admin-video-embed';
+import { AdminMapLocation } from './admin-map-location';
 
 
 const heroBlockSchema = z.object({
@@ -70,6 +79,24 @@ function SortableBlockItem({ block, onEdit, onDelete, onToggleVisibility }: { bl
             return <><Pilcrow className="h-4 w-4 mr-2 text-muted-foreground" /> Text: "{block.data.content?.substring(0, 30)}..."</>;
         case 'image':
             return <><ImageIcon className="h-4 w-4 mr-2 text-muted-foreground" /> Image: {block.data.alt}</>;
+        case 'announcements':
+            return <><Newspaper className="h-4 w-4 mr-2 text-muted-foreground" /> Announcements: {block.data.title}</>;
+        case 'testimonials':
+            return <><MessageSquareQuote className="h-4 w-4 mr-2 text-muted-foreground" /> Testimonials: {block.data.title}</>;
+        case 'faq':
+            return <><HelpCircle className="h-4 w-4 mr-2 text-muted-foreground" /> FAQ: {block.data.title}</>;
+        case 'timeline':
+            return <><History className="h-4 w-4 mr-2 text-muted-foreground" /> Timeline: {block.data.title}</>;
+        case 'stats-expanded':
+            return <><Activity className="h-4 w-4 mr-2 text-muted-foreground" /> Stats: {block.data.title}</>;
+        case 'cta-banner':
+            return <><Zap className="h-4 w-4 mr-2 text-muted-foreground" /> CTA Banner: {block.data.heading}</>;
+        case 'team-showcase':
+            return <><Users className="h-4 w-4 mr-2 text-muted-foreground" /> Team: {block.data.title}</>;
+        case 'video-embed':
+            return <><PlayCircle className="h-4 w-4 mr-2 text-muted-foreground" /> Video: {block.data.title}</>;
+        case 'map-location':
+            return <><MapPin className="h-4 w-4 mr-2 text-muted-foreground" /> Map: {block.data.title}</>;
         default:
             return `Unknown block: ${block.type}`;
     }
@@ -170,6 +197,24 @@ function BlockEditorDialog({ block, open, onOpenChange, onUpdate }: { block: Blo
                 )} />
             </>
         )
+    } else if (block.type === 'announcements') {
+        return <AdminAnnouncements block={block} open={open} onOpenChange={onOpenChange} onUpdate={onUpdate} />;
+    } else if (block.type === 'testimonials') {
+        return <AdminTestimonials block={block} open={open} onOpenChange={onOpenChange} onUpdate={onUpdate} />;
+    } else if (block.type === 'faq') {
+        return <AdminFAQ block={block} open={open} onOpenChange={onOpenChange} onUpdate={onUpdate} />;
+    } else if (block.type === 'timeline') {
+        return <AdminTimeline block={block} open={open} onOpenChange={onOpenChange} onUpdate={onUpdate} />;
+    } else if (block.type === 'stats-expanded') {
+        return <AdminStatsExpanded block={block} open={open} onOpenChange={onOpenChange} onUpdate={onUpdate} />;
+    } else if (block.type === 'cta-banner') {
+        return <AdminCTABanner block={block} open={open} onOpenChange={onOpenChange} onUpdate={onUpdate} />;
+    } else if (block.type === 'team-showcase') {
+        return <AdminTeamShowcase block={block} open={open} onOpenChange={onOpenChange} onUpdate={onUpdate} />;
+    } else if (block.type === 'video-embed') {
+        return <AdminVideoEmbed block={block} open={open} onOpenChange={onOpenChange} onUpdate={onUpdate} />;
+    } else if (block.type === 'map-location') {
+        return <AdminMapLocation block={block} open={open} onOpenChange={onOpenChange} onUpdate={onUpdate} />;
     }
 
     const handleSave = async (data: any) => {
@@ -267,6 +312,15 @@ export function AdminPageEditor({ page, open, onOpenChange, onUpdate }: { page: 
         case 'hero': defaultData = { title: 'New Hero Section', subtitle: 'A stunning hero section to grab attention', imageurl: 'https://picsum.photos/seed/1/1200/800', primaryCtaLabel: 'Learn More', primaryCtaUrl: '/about' }; break;
         case 'text': defaultData = { content: '## New Text Block\n\nStart writing your content here. **Markdown** is supported!' }; break;
         case 'image': defaultData = { imageUrl: `https://picsum.photos/seed/${Math.random()}/1200/400`, alt: 'Placeholder image' }; break;
+        case 'announcements': defaultData = { title: 'Announcements', announcements: [] }; break;
+        case 'testimonials': defaultData = { title: 'What Our Community Says', subtitle: 'Real stories from our students', items: [] }; break;
+        case 'faq': defaultData = { title: 'Frequently Asked Questions', items: [] }; break;
+        case 'timeline': defaultData = { title: 'Journey of Excellence', items: [] }; break;
+        case 'stats-expanded': defaultData = { title: 'Numbers that Define Us', items: [] }; break;
+        case 'cta-banner': defaultData = { heading: 'Ready to Shape Your Future?', subtext: '', btns: [{label: 'Apply Now', link: '/admissions', variant: 'primary'}] }; break;
+        case 'team-showcase': defaultData = { title: 'Meet Our Visionaries', items: [] }; break;
+        case 'video-embed': defaultData = { title: 'Experience Our Campus', videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ', thumbnailUrl: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=1200' }; break;
+        case 'map-location': defaultData = { title: 'Find Us Here', address: '123 Academic Way', embedUrl: '' }; break;
         default: return;
     }
     
@@ -368,8 +422,17 @@ export function AdminPageEditor({ page, open, onOpenChange, onUpdate }: { page: 
                 <h3 className="text-lg font-medium mb-2">Add New Block</h3>
                 <div className="mt-2 flex gap-2 flex-wrap">
                     <Button type="button" variant="outline" size="sm" onClick={() => handleAddBlock('hero')}><Film className="h-4 w-4 mr-2" />Hero</Button>
-                    <Button type="button" variant="outline" size="sm" onClick={() => handleAddBlock('text')}><Pilcrow className="h-4 w-4 mr-2" />Text Block</Button>
-                    <Button type="button" variant="outline" size="sm" onClick={() => handleAddBlock('image')}><ImageIcon className="h-4 w-4 mr-2" />Image Block</Button>
+                    <Button type="button" variant="outline" size="sm" onClick={() => handleAddBlock('text')}><Pilcrow className="h-4 w-4 mr-2" />Text</Button>
+                    <Button type="button" variant="outline" size="sm" onClick={() => handleAddBlock('image')}><ImageIcon className="h-4 w-4 mr-2" />Image</Button>
+                    <Button type="button" variant="outline" size="sm" onClick={() => handleAddBlock('announcements')}><Newspaper className="h-4 w-4 mr-2" />Announcements</Button>
+                    <Button type="button" variant="outline" size="sm" onClick={() => handleAddBlock('testimonials')}><MessageSquareQuote className="h-4 w-4 mr-2" />Testimonials</Button>
+                    <Button type="button" variant="outline" size="sm" onClick={() => handleAddBlock('faq')}><HelpCircle className="h-4 w-4 mr-2" />FAQ</Button>
+                    <Button type="button" variant="outline" size="sm" onClick={() => handleAddBlock('timeline')}><History className="h-4 w-4 mr-2" />Timeline</Button>
+                    <Button type="button" variant="outline" size="sm" onClick={() => handleAddBlock('stats-expanded')}><Activity className="h-4 w-4 mr-2" />Stats</Button>
+                    <Button type="button" variant="outline" size="sm" onClick={() => handleAddBlock('cta-banner')}><Zap className="h-4 w-4 mr-2" />CTA</Button>
+                    <Button type="button" variant="outline" size="sm" onClick={() => handleAddBlock('team-showcase')}><Users className="h-4 w-4 mr-2" />Team</Button>
+                    <Button type="button" variant="outline" size="sm" onClick={() => handleAddBlock('video-embed')}><PlayCircle className="h-4 w-4 mr-2" />Video</Button>
+                    <Button type="button" variant="outline" size="sm" onClick={() => handleAddBlock('map-location')}><MapPin className="h-4 w-4 mr-2" />Map</Button>
                 </div>
             </div>
         </div>

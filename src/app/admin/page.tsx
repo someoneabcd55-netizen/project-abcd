@@ -8,10 +8,13 @@ import { AdminHomepage } from '@/components/admin/admin-homepage';
 import { AdminDepartments } from '@/components/admin/admin-departments';
 import { AdminActivities } from '@/components/admin/admin-activities';
 import { AdminGallery } from '@/components/admin/admin-gallery';
+import { AdminGalleryBlocks } from '@/components/admin/admin-gallery-blocks';
 import { AdminEvents } from '@/components/admin/admin-events';
 import { AdminTeam } from '@/components/admin/admin-team';
+import { AdminFaculty } from '@/components/admin/admin-faculty';
+import { AdminTheme } from '@/components/admin/admin-theme';
 import { AdminUserManagement } from '@/components/admin/admin-user-management';
-import { LayoutGrid, Milestone, Home, Building2, ToyBrick, ImageIcon, Calendar, UserSquare, Users } from 'lucide-react';
+import { LayoutGrid, Milestone, Home, Building2, ToyBrick, ImageIcon, Calendar, UserSquare, Users, Palette } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
 export default function AdminDashboardPage() {
@@ -37,7 +40,7 @@ export default function AdminDashboardPage() {
        </div>
       
       <Tabs defaultValue="homepage" className="w-full">
-        <TabsList className="grid w-full grid-cols-1 md:grid-cols-9">
+        <TabsList className="grid w-full grid-cols-1 md:grid-cols-10">
           <TabsTrigger value="homepage">
             <Home className="mr-2 h-4 w-4" />
             Homepage
@@ -69,6 +72,10 @@ export default function AdminDashboardPage() {
           <TabsTrigger value="users">
             <Users className="mr-2 h-4 w-4" />
             Users
+          </TabsTrigger>
+          <TabsTrigger value="theme">
+            <Palette className="mr-2 h-4 w-4" />
+            Theme
           </TabsTrigger>
           <TabsTrigger value="footer">
             <Milestone className="mr-2 h-4 w-4" />
@@ -106,7 +113,7 @@ export default function AdminDashboardPage() {
                        Manage all faculty and team members.
                     </CardDescription>
                 </CardHeader>
-                <AdminTeam />
+                <AdminFaculty />
             </Card>
         </TabsContent>
         <TabsContent value="departments">
@@ -132,7 +139,7 @@ export default function AdminDashboardPage() {
             </Card>
         </TabsContent>
          <TabsContent value="events">
-            <Card>
+             <Card>
                 <CardHeader>
                     <CardTitle>Campus Events</CardTitle>
                     <CardDescription>
@@ -145,12 +152,12 @@ export default function AdminDashboardPage() {
          <TabsContent value="gallery">
             <Card>
                 <CardHeader>
-                    <CardTitle>Website Gallery</CardTitle>
+                    <CardTitle>Gallery Page Layout</CardTitle>
                     <CardDescription>
-                        Manage the images displayed on the public gallery page.
+                        Create creative layouts with Mosaic, Bento, and Filterable Galleries.
                     </CardDescription>
                 </CardHeader>
-                 <AdminGallery onGalleryUpdate={handleGalleryUpdate} />
+                <AdminGalleryBlocks />
             </Card>
         </TabsContent>
         <TabsContent value="users">
@@ -162,6 +169,17 @@ export default function AdminDashboardPage() {
                     </CardDescription>
                 </CardHeader>
                 <AdminUserManagement />
+            </Card>
+        </TabsContent>
+        <TabsContent value="theme">
+            <Card>
+                <CardHeader>
+                    <CardTitle>Website Appearance</CardTitle>
+                    <CardDescription>
+                        Choose a visual theme for your website.
+                    </CardDescription>
+                </CardHeader>
+                <AdminTheme />
             </Card>
         </TabsContent>
         <TabsContent value="footer">

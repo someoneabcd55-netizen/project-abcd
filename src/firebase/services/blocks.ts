@@ -2,6 +2,7 @@
 import { revalidatePath, revalidateTag, unstable_cache } from 'next/cache';
 import { getAdminDb } from '@/firebase/server-init';
 import { getPageBySlug } from './pages';
+import { shouldUseFallbackData } from './fallback-data';
 
 export interface Block {
   id: string;
@@ -26,20 +27,29 @@ async function revalidatePage(pageId: string) {
 export async function getPageBlocks(slug: string) : Promise<Block[] | null> {
   const getCached = unstable_cache(
     async (): Promise<Block[] | null> => {
-      const page = await getPageBySlug(slug);
-      if (!page) return null;
+      if (shouldUseFallbackData()) {
+        return null;
+      }
 
-      const adminDb = getAdminDb();
-      const blocksCollection = adminDb.collection('blocks');
-      const q = blocksCollection.where('page_id', '==', page.id);
-      const snapshot = await q.get();
+      try {
+        const page = await getPageBySlug(slug);
+        if (!page) return null;
 
-      const blocks = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Block));
+        const adminDb = getAdminDb();
+        const blocksCollection = adminDb.collection('blocks');
+        const q = blocksCollection.where('page_id', '==', page.id);
+        const snapshot = await q.get();
 
-      // Filter for visible blocks and sort in code to avoid composite index requirement
-      return blocks
-        .filter(block => block.visible)
-        .sort((a, b) => a.order_position - b.order_position);
+        const blocks = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Block));
+
+        // Filter for visible blocks and sort in code to avoid composite index requirement
+        return blocks
+          .filter(block => block.visible)
+          .sort((a, b) => a.order_position - b.order_position);
+      } catch (error) {
+        console.warn(`Using empty fallback blocks for "${slug}" because Firestore is unavailable.`, error);
+        return null;
+      }
     },
     ['page-blocks', slug],
     { revalidate: 1800, tags: [`blocks:${slug}`] }
@@ -123,5 +133,44 @@ export async function reorderBlocks(blocks: Array<{ id: string; order_position: 
           await revalidatePage(pageId);
       }
   }
+  revalidatePath('/admin');
+}
+
+export async function updatePageBlocks(pageId: string, blocks: Block[]) {
+  const adminDb = getAdminDb();
+  const currentBlocks = await getBlocksAdmin(pageId);
+  const currentIds = currentBlocks.map(b => b.id);
+  const newIds = blocks.map(b => b.id);
+
+  const batch = adminDb.batch();
+
+  // Deletions
+  const toDelete = currentIds.filter(id => !newIds.includes(id));
+  toDelete.forEach(id => {
+    batch.delete(adminDb.collection('blocks').doc(id));
+  });
+
+  // Updates and Additions
+  for (let i = 0; i < blocks.length; i++) {
+    const b = blocks[i];
+    const { id, ...rest } = b;
+    const blockData = {
+      ...rest,
+      order_position: i,
+      page_id: pageId
+    };
+
+    if (id.startsWith('temp-')) {
+      // New block
+      const newDocRef = adminDb.collection('blocks').doc();
+      batch.set(newDocRef, blockData);
+    } else {
+      // Update existing
+      batch.update(adminDb.collection('blocks').doc(id), blockData);
+    }
+  }
+
+  await batch.commit();
+  await revalidatePage(pageId);
   revalidatePath('/admin');
 }

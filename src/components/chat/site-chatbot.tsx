@@ -18,7 +18,7 @@ export function SiteChatbot() {
   const [isOpen, setIsOpen] = useState(false);
   const [input, setInput] = useState('');
   const [messages, setMessages] = useState<Message[]>([
-    { role: 'model', content: 'Namaste! I am your AI assistant for G V Hallikeri PU college. How can I help you today?' }
+    { role: 'model', content: 'Namaste! I am your AI assistant for Modern School. How can I help you today?' }
   ]);
   const [isLoading, setIsLoading] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);

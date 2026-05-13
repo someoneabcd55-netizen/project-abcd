@@ -1,6 +1,7 @@
 'use server';
 import { revalidatePath, revalidateTag, unstable_cache } from 'next/cache';
 import { getAdminDb } from '@/firebase/server-init';
+import { shouldUseFallbackData } from './fallback-data';
 
 export interface Announcement {
   id: string;
@@ -16,11 +17,20 @@ export async function getAnnouncements(): Promise<Announcement[]> {
 
 const getAnnouncementsCached = unstable_cache(
   async (): Promise<Announcement[]> => {
-    const adminDb = getAdminDb();
-    const announcementsCollection = adminDb.collection('announcements');
-    const q = announcementsCollection.orderBy('date', 'desc').limit(100);
-    const snapshot = await q.get();
-    return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Announcement));
+    if (shouldUseFallbackData()) {
+      return [];
+    }
+
+    try {
+      const adminDb = getAdminDb();
+      const announcementsCollection = adminDb.collection('announcements');
+      const q = announcementsCollection.orderBy('date', 'desc').limit(100);
+      const snapshot = await q.get();
+      return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Announcement));
+    } catch (error) {
+      console.warn('Using empty fallback announcements because Firestore is unavailable.', error);
+      return [];
+    }
   },
   ['announcements-all'],
   { revalidate: 1800, tags: ['announcements'] }
@@ -33,11 +43,20 @@ export async function getAnnouncementsPublic(count = 3): Promise<Announcement[]>
 
 const getAnnouncementsPublicCached = unstable_cache(
   async (count: number): Promise<Announcement[]> => {
-    const adminDb = getAdminDb();
-    const announcementsCollection = adminDb.collection('announcements');
-    const q = announcementsCollection.orderBy('date', 'desc').limit(Math.max(1, Math.min(count, 12)));
-    const snapshot = await q.get();
-    return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Announcement));
+    if (shouldUseFallbackData()) {
+      return [];
+    }
+
+    try {
+      const adminDb = getAdminDb();
+      const announcementsCollection = adminDb.collection('announcements');
+      const q = announcementsCollection.orderBy('date', 'desc').limit(Math.max(1, Math.min(count, 12)));
+      const snapshot = await q.get();
+      return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Announcement));
+    } catch (error) {
+      console.warn('Using empty fallback public announcements because Firestore is unavailable.', error);
+      return [];
+    }
   },
   ['announcements-public'],
   { revalidate: 1800, tags: ['announcements'] }

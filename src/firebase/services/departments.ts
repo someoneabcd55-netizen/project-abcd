@@ -2,6 +2,7 @@
 import { getFirestore } from 'firebase-admin/firestore';
 import { getAdminDb } from '@/firebase/server-init';
 import { revalidatePath } from 'next/cache';
+import { fallbackDepartments, shouldUseFallbackData } from './fallback-data';
 
 export interface Course { id: string; name: string; description: string }
 export interface Department {
@@ -18,14 +19,28 @@ export interface Department {
 
 // PUBLIC READ
 export async function getDepartments(): Promise<Department[]> {
-  const adminDb = getAdminDb();
-  const departmentsCollection = adminDb.collection('departments');
-  const snapshot = await departmentsCollection.orderBy('name', 'asc').get();
-  return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Department));
+  if (shouldUseFallbackData()) {
+    return fallbackDepartments;
+  }
+
+  try {
+    const adminDb = getAdminDb();
+    const departmentsCollection = adminDb.collection('departments');
+    const snapshot = await departmentsCollection.orderBy('name', 'asc').get();
+    return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Department));
+  } catch (error) {
+    console.warn('Using fallback departments because Firestore is unavailable.', error);
+    return fallbackDepartments;
+  }
 }
 
 // PUBLIC READ
 export async function getDepartmentBySlug(slug: string): Promise<Department | null> {
+  if (shouldUseFallbackData()) {
+    return fallbackDepartments.find(department => department.slug === slug) ?? null;
+  }
+
+  try {
     const adminDb = getAdminDb();
     const departmentsCollection = adminDb.collection('departments');
     const q = departmentsCollection.where('slug', '==', slug);
@@ -33,6 +48,10 @@ export async function getDepartmentBySlug(slug: string): Promise<Department | nu
     if(snapshot.empty) return null;
     const docData = snapshot.docs[0];
     return { id: docData.id, ...docData.data() } as Department;
+  } catch (error) {
+    console.warn(`Using fallback department for slug "${slug}" because Firestore is unavailable.`, error);
+    return fallbackDepartments.find(department => department.slug === slug) ?? null;
+  }
 }
 
 // ADMIN WRITE - ADD

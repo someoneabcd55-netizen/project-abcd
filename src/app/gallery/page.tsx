@@ -1,22 +1,35 @@
-
-import { getGalleryImages } from '@/firebase/services/gallery';
-import { GalleryClient } from './gallery-client';
+import { getPageBlocks } from '@/firebase/services/blocks';
 import { unstable_noStore as noStore } from 'next/cache';
-
+import { getAppearanceSettings } from '@/firebase/services/settings';
+import HomeRenderer from '@/components/HomeRenderer';
+import { PageHeader } from '@/components/layout/page-header';
 
 export default async function GalleryPage() {
-    noStore(); // Ensure fresh data on every request
-    const images = await getGalleryImages();
+    noStore();
+    const [blocks, appearance] = await Promise.all([
+        getPageBlocks('gallery'),
+        getAppearanceSettings(),
+    ]);
+
+    if (!blocks) {
+        return (
+            <div>
+                <PageHeader 
+                    eyebrow="Campus Life"
+                    title="Our Gallery" 
+                    description="Explore our vibrant campus life."
+                    theme={appearance?.theme}
+                />
+                <div className="container mx-auto px-4 py-32 text-center">
+                    <p className="text-muted-foreground">Gallery content is coming soon.</p>
+                </div>
+            </div>
+        );
+    }
 
     return (
-        <div className="container mx-auto px-4 py-12 md:px-6">
-        <h1 className="font-headline text-4xl font-bold tracking-tight md:text-5xl text-center">
-            Campus Life Gallery
-        </h1>
-        <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground text-center">
-            A glimpse into the vibrant life at G V Hallikeri PU college.
-        </p>
-        <GalleryClient initialImages={images} />
+        <div className="min-h-screen">
+            <HomeRenderer blocks={blocks} theme={appearance?.theme} />
         </div>
     );
 }

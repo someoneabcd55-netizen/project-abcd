@@ -7,14 +7,15 @@ import type { Metadata, ResolvingMetadata } from 'next';
 export const revalidate = 3600; // Revalidate every hour
 
 type Props = {
-  params: { slug: string }
+  params: Promise<{ slug: string }>
 }
 
 export async function generateMetadata(
   { params }: Props,
   parent: ResolvingMetadata
 ): Promise<Metadata> {
-  const page = await getPageBySlug(params.slug);
+  const { slug } = await params;
+  const page = await getPageBySlug(slug);
 
   if (!page) {
     return {
@@ -36,12 +37,18 @@ export async function generateStaticParams() {
     }));
 }
 
-export default async function DynamicPage({ params }: { params: { slug: string } }) {
-    const blocks = await getPageBlocks(params.slug);
+import { getAppearanceSettings } from '@/firebase/services/settings';
+
+export default async function DynamicPage({ params }: Props) {
+    const { slug } = await params;
+    const [blocks, appearance] = await Promise.all([
+        getPageBlocks(slug),
+        getAppearanceSettings(),
+    ]);
 
     if (!blocks) {
         notFound();
     }
 
-    return <PageRenderer blocks={blocks} />;
+    return <PageRenderer blocks={blocks} theme={appearance?.theme} />;
 }

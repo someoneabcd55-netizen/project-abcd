@@ -130,7 +130,7 @@ VALUES (
   'Main Hero',
   jsonb_build_object(
     'imageUrl', 'https://klesnc.edu.in/wp-content/uploads/2023/10/banner-6.jpg',
-    'title', 'G. V. Hallikeri College, Hosaritti',
+    'title', 'Modern School, Hosaritti',
     'subtitle', 'Fostering holistic development through quality education.',
     'primaryCta', jsonb_build_object('label','Apply Now','url','/admissions'),
     'secondaryCta', jsonb_build_object('label','Our Departments','url','/departments')
@@ -166,7 +166,7 @@ ON CONFLICT (slug) DO NOTHING;
 
 -- Seed contact info
 INSERT INTO contact_info (id, generalPhone, generalEmail, address) VALUES
-(1, '+91 94489 19901', 'gvhc.hosaritti@gmail.com', 'G. V. Hallikeri College,
+(1, '+91 94489 19901', 'gvhc.hosaritti@gmail.com', 'Modern School,
 Hosaritti, Haveri,
 Karnataka, 581110')
 ON CONFLICT (id) DO NOTHING;
@@ -194,7 +194,7 @@ INSERT INTO footer_content (id, linkColumns, socialLinks, copyrightText) VALUES
         {"platform": "Twitter", "href": "https://twitter.com"},
         {"platform": "LinkedIn", "href": "https://linkedin.com"}
     ]',
-    '© {year} G. V. Hallikeri College. All Rights Reserved.'
+    '© {year} Modern School. All Rights Reserved.'
 ) ON CONFLICT (id) DO NOTHING;
 
 -- Seed team members

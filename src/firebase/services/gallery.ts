@@ -5,6 +5,7 @@ import { revalidatePath } from 'next/cache';
 import { deleteStorageFile } from './storage';
 import { getAdminDb } from '@/firebase/server-init';
 import { deleteImageFromCloudinary } from '@/lib/cloudinary';
+import { fallbackGalleryImages, shouldUseFallbackData } from './fallback-data';
 
 export interface GalleryImage {
   id: string;
@@ -18,6 +19,11 @@ export interface GalleryImage {
 
 // PUBLIC READ
 export async function getGalleryImages(): Promise<GalleryImage[]> {
+  if (shouldUseFallbackData()) {
+    return fallbackGalleryImages;
+  }
+
+  try {
     const adminDb = getAdminDb();
     const galleryCollection = adminDb.collection('gallery');
     const q = galleryCollection.orderBy('order_position', 'asc');
@@ -36,6 +42,10 @@ export async function getGalleryImages(): Promise<GalleryImage[]> {
             createdAt: createdAtTimestamp.toDate().toISOString(), // Convert Timestamp to ISO string
         } as GalleryImage;
     });
+  } catch (error) {
+    console.warn('Using fallback gallery because Firestore is unavailable.', error);
+    return fallbackGalleryImages;
+  }
 }
 
 // ADMIN WRITE - ADD

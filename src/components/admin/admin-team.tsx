@@ -88,7 +88,7 @@ export function AdminTeam() {
 
     const { fields: expertiseFields, append: appendExpertise, remove: removeExpertise } = useFieldArray({
         control: form.control,
-        name: "expertise",
+        name: "expertise" as never,
     });
 
     const fetchTeam = async () => {
@@ -110,7 +110,11 @@ export function AdminTeam() {
 
     const handleEditClick = (member: TeamMember) => {
         setEditingMember(member);
-        form.reset({ ...member, expertise: member.expertise || [] });
+        form.reset({
+            ...member,
+            department: member.department as TeamMemberFormValues['department'],
+            expertise: member.expertise || [],
+        });
         setDialogOpen(true);
     };
     
@@ -244,8 +248,8 @@ export function AdminTeam() {
                             <div>
                                 <FormLabel>Areas of Expertise</FormLabel>
                                 <div className="flex items-center gap-2 mt-1">
-                                    <Input value={newExpertise} onChange={(e) => setNewExpertise(e.target.value)} placeholder="e.g., Accounting" onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); if(newExpertise.trim()){ appendExpertise(newExpertise.trim()); setNewExpertise(''); }}}}/>
-                                    <Button type="button" size="sm" onClick={() => { if(newExpertise.trim()){ appendExpertise(newExpertise.trim()); setNewExpertise(''); }}}>Add</Button>
+                                    <Input value={newExpertise} onChange={(e) => setNewExpertise(e.target.value)} placeholder="e.g., Accounting" onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); if(newExpertise.trim()){ appendExpertise(newExpertise.trim() as never); setNewExpertise(''); }}}}/>
+                                    <Button type="button" size="sm" onClick={() => { if(newExpertise.trim()){ appendExpertise(newExpertise.trim() as never); setNewExpertise(''); }}}>Add</Button>
                                 </div>
                                 <div className="flex flex-wrap gap-2 mt-2">
                                     {expertiseFields.map((field, index) => (

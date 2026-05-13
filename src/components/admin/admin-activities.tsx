@@ -89,7 +89,7 @@ export function AdminActivities() {
 
   const { fields: focusAreaFields, append: appendFocusArea, remove: removeFocusArea } = useFieldArray({
     control: form.control,
-    name: "focusareas",
+    name: "focusareas" as never,
   });
   
   const { fields: courseFields, append: appendCourse, remove: removeCourse } = useFieldArray({
@@ -281,8 +281,8 @@ export function AdminActivities() {
                         <div>
                             <FormLabel>Key Focus Areas</FormLabel>
                             <div className="flex items-center gap-2 mt-1">
-                                <Input value={newFocusArea} onChange={(e) => setNewFocusArea(e.target.value)} placeholder="e.g., Leadership" onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); if (newFocusArea.trim()) { appendFocusArea(newFocusArea.trim()); setNewFocusArea('') }}}} />
-                                <Button type="button" size="sm" onClick={() => { if(newFocusArea.trim()){ appendFocusArea(newFocusArea.trim()); setNewFocusArea(''); }}}>Add</Button>
+                                <Input value={newFocusArea} onChange={(e) => setNewFocusArea(e.target.value)} placeholder="e.g., Leadership" onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); if (newFocusArea.trim()) { appendFocusArea(newFocusArea.trim() as never); setNewFocusArea('') }}}} />
+                                <Button type="button" size="sm" onClick={() => { if(newFocusArea.trim()){ appendFocusArea(newFocusArea.trim() as never); setNewFocusArea(''); }}}>Add</Button>
                             </div>
                              <div className="flex flex-wrap gap-2 mt-2">
                                 {focusAreaFields.map((field, index) => (

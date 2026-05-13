@@ -2,18 +2,23 @@ import { HeroSection } from '@/components/home/hero-section';
 import { TextBlock } from '@/components/home/text-block';
 import { ImageBlock } from '@/components/home/image-block';
 import { AnnouncementsSection } from './home/announcements-section';
+import { StatsRow } from '@/components/home/stats-row';
+import { FeatureCards } from '@/components/home/feature-cards';
 
 const componentMap: Record<string, any> = {
   hero: HeroSection,
   text: TextBlock,
   image: ImageBlock,
   announcements: AnnouncementsSection,
+  stats: StatsRow,
+  features: FeatureCards,
 };
 
-export default function PageRenderer({ blocks }: { blocks: any[] }) {
+export default function PageRenderer({ blocks, theme }: { blocks: any[], theme?: string }) {
   if (blocks.length === 0) {
     return (
         <div className="container mx-auto my-12 text-center text-muted-foreground">
+             <p className='font-bold text-2xl'>Empty Page</p>
             <p>This page is empty. An administrator can add content blocks in the admin dashboard.</p>
         </div>
     )
@@ -33,7 +38,7 @@ export default function PageRenderer({ blocks }: { blocks: any[] }) {
                 </div>
             )
         }
-        return <Component key={b.id} {...b.data} />;
+        return <Component key={b.id} theme={theme} {...b.data} />;
       })}
     </div>
   );

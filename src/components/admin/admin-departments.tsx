@@ -87,7 +87,7 @@ export function AdminDepartments() {
 
   const { fields: researchAreaFields, append: appendResearchArea, remove: removeResearchArea } = useFieldArray({
     control: form.control,
-    name: "researchareas",
+    name: "researchareas" as never,
   });
   
   const { fields: courseFields, append: appendCourse, remove: removeCourse } = useFieldArray({
@@ -258,8 +258,8 @@ export function AdminDepartments() {
                         <div>
                             <FormLabel>Research Areas</FormLabel>
                             <div className="flex items-center gap-2 mt-1">
-                                <Input value={newResearchArea} onChange={(e) => setNewResearchArea(e.target.value)} placeholder="e.g., Artificial Intelligence" onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); if (newResearchArea.trim()) { appendResearchArea(newResearchArea.trim()); setNewResearchArea('') }}}} />
-                                <Button type="button" size="sm" onClick={() => { if(newResearchArea.trim()){ appendResearchArea(newResearchArea.trim()); setNewResearchArea(''); }}}>Add</Button>
+                                <Input value={newResearchArea} onChange={(e) => setNewResearchArea(e.target.value)} placeholder="e.g., Artificial Intelligence" onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); if (newResearchArea.trim()) { appendResearchArea(newResearchArea.trim() as never); setNewResearchArea('') }}}} />
+                                <Button type="button" size="sm" onClick={() => { if(newResearchArea.trim()){ appendResearchArea(newResearchArea.trim() as never); setNewResearchArea(''); }}}>Add</Button>
                             </div>
                              <div className="flex flex-wrap gap-2 mt-2">
                                 {researchAreaFields.map((field, index) => (

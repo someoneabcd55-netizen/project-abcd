@@ -147,7 +147,7 @@ select grant_public_read('footer_content');
 -- Seed Homepage Blocks
 insert into public.blocks(page_id, order_position, type, visible, data)
 values
-    ('homepage', 0, 'hero', true, '{"title": "Welcome to G. V. Hallikeri College", "subtitle": "Excellence in Arts and Commerce Education since 2020.", "imageurl": "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&q=85&fm=jpg&crop=entropy&cs=srgb&w=6000", "primaryCta": {"label": "Apply Now", "url": "/admissions"}, "secondaryCta": {"label": "Our Programs", "url": "/departments"}}'),
+    ('homepage', 0, 'hero', true, '{"title": "Welcome to Modern School", "subtitle": "Excellence in Arts and Commerce Education since 2020.", "imageurl": "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&q=85&fm=jpg&crop=entropy&cs=srgb&w=6000", "primaryCta": {"label": "Apply Now", "url": "/admissions"}, "secondaryCta": {"label": "Our Programs", "url": "/departments"}}'),
     ('homepage', 1, 'announcements', true, '{"title": "College Announcements", "limit": 3}'),
     ('homepage', 2, 'dual-section', true, '{}')
 on conflict do nothing;
@@ -196,7 +196,7 @@ on conflict do nothing;
 -- Seed Contact Info
 insert into public.contact_info (id, generalphone, generalemail, address)
 values
-    ('singleton', '+91 94489 21783', 'gvhdegreecollege@gmail.com', 'G. V. Hallikeri College,\nHosaritti, Haveri,\nKarnataka, 581110')
+    ('singleton', '+91 94489 21783', 'gvhdegreecollege@gmail.com', 'Modern School,\nHosaritti, Haveri,\nKarnataka, 581110')
 on conflict (id) do update set
     generalphone = excluded.generalphone,
     generalemail = excluded.generalemail,
@@ -205,7 +205,7 @@ on conflict (id) do update set
 -- Seed Footer Content
 insert into public.footer_content (id, content)
 values
-    ('singleton', '{"copyrightText": "© {year} G. V. Hallikeri College. All Rights Reserved.", "socialLinks": [{"platform": "Facebook", "url": "https://facebook.com"}, {"platform": "Instagram", "url": "https://instagram.com"}, {"platform": "YouTube", "url": "https://youtube.com"}], "linkColumns": [{"title": "Quick Links", "links": [{"label": "Admissions", "url": "/admissions"}, {"label": "Departments", "url": "/departments"}, {"label": "Faculty", "url": "/faculty"}, {"label": "Events", "url": "/events"}]}, {"title": "Resources", "links": [{"label": "Gallery", "url": "/gallery"}, {"label": "Contact Us", "url": "/contact"}, {"label": "Admin Login", "url": "/login"}]}]}')
+    ('singleton', '{"copyrightText": "© {year} Modern School. All Rights Reserved.", "socialLinks": [{"platform": "Facebook", "url": "https://facebook.com"}, {"platform": "Instagram", "url": "https://instagram.com"}, {"platform": "YouTube", "url": "https://youtube.com"}], "linkColumns": [{"title": "Quick Links", "links": [{"label": "Admissions", "url": "/admissions"}, {"label": "Departments", "url": "/departments"}, {"label": "Faculty", "url": "/faculty"}, {"label": "Events", "url": "/events"}]}, {"title": "Resources", "links": [{"label": "Gallery", "url": "/gallery"}, {"label": "Contact Us", "url": "/contact"}, {"label": "Admin Login", "url": "/login"}]}]}')
 on conflict (id) do update set
     content = excluded.content;
 
