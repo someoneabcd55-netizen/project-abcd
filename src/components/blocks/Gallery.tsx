@@ -26,6 +26,8 @@ interface GalleryProps {
   lightbox?: boolean;
 }
 
+import { Button } from '@/components/ui/button';
+
 export function Gallery({
   eyebrowLabel,
   title,
@@ -182,10 +184,4 @@ export function Gallery({
       </Dialog>
     </section>
   );
-}
-
-// Internal Button component for simpler imports if needed, or use existing UI Button
-function Button({ className, ...props }: any) {
-  const { Button: UiButton } = require('@/components/ui/button');
-  return <UiButton className={className} {...props} />;
 }
