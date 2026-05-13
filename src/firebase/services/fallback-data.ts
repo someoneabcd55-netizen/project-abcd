@@ -2,7 +2,7 @@ import type { Activity } from './activities';
 import type { AppEvent } from './events';
 import type { Department } from './departments';
 import type { FooterContent } from './footer';
-import type { GalleryImage } from './gallery';
+import type { GalleryImage } from './glimpses';
 import type { Page } from './pages';
 import type { TeamMember } from './team';
 import type { ContactInfo } from './contact';
@@ -18,7 +18,7 @@ export const fallbackPages: Page[] = [
   { id: 'fallback-faculty', slug: 'faculty', title: 'Faculty', visible: true, order_position: 3, description: 'Faculty and NCC team.' },
   { id: 'fallback-admissions', slug: 'admissions', title: 'Admissions', visible: true, order_position: 4, description: 'Admissions and joining information.' },
   { id: 'fallback-events', slug: 'events', title: 'Events', visible: true, order_position: 6, description: 'Events and calendar.' },
-  { id: 'fallback-gallery', slug: 'gallery', title: 'Gallery', visible: true, order_position: 7, description: 'Campus gallery.' },
+  { id: 'fallback-gallery', slug: 'glimpses', title: 'Glimpses', visible: true, order_position: 7, description: 'Campus gallery.' },
   { id: 'fallback-contact', slug: 'contact', title: 'Contact', visible: true, order_position: 8, description: 'Contact information.' },
 ];
 

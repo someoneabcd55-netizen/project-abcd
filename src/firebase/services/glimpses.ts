@@ -60,7 +60,7 @@ export async function addGalleryItem(item: {
     const galleryCollection = adminDb.collection('gallery');
     const payload = { ...item, createdAt: Timestamp.now() };
     const docRef = await galleryCollection.add(payload);
-    revalidatePath('/gallery');
+    revalidatePath('/glimpses');
     revalidatePath('/admin');
     return docRef.id;
 }
@@ -70,7 +70,7 @@ export async function updateGalleryItem(id: string, item: Partial<Omit<GalleryIm
     const adminDb = getAdminDb();
     const imageDoc = adminDb.doc(`gallery/${id}`);
     await imageDoc.update(item);
-    revalidatePath('/gallery');
+    revalidatePath('/glimpses');
     revalidatePath('/admin');
 }
 
@@ -90,7 +90,7 @@ export async function deleteGalleryItem(id: string, imageUrl: string, publicId?:
       await deleteStorageFile(imageUrl);
     }
 
-    revalidatePath('/gallery');
+    revalidatePath('/glimpses');
     revalidatePath('/admin');
 }
 
@@ -106,6 +106,6 @@ export async function reorderGalleryImages(images: Array<{ id: string; order_pos
     });
 
     await batch.commit();
-    revalidatePath('/gallery');
+    revalidatePath('/glimpses');
     revalidatePath('/admin');
 }

@@ -9,7 +9,7 @@ export default async function GalleryPage() {
     
     try {
         const [blocks, appearance] = await Promise.all([
-            getPageBlocks('gallery'),
+            getPageBlocks('glimpses').then(b => (b && b.length > 0) ? b : getPageBlocks('gallery')),
             getAppearanceSettings(),
         ]);
 
@@ -17,9 +17,9 @@ export default async function GalleryPage() {
             return (
                 <div className="min-h-screen bg-background">
                     <PageHeader 
-                        eyebrow="Campus Life"
-                        title="Our Gallery" 
-                        description="Explore our vibrant campus life and visual stories."
+                        eyebrow="Visual Journey"
+                        title="Glimpses" 
+                        description="Capturing the spirit and moments of our campus life."
                         theme={appearance?.theme}
                     />
                     <div className="container mx-auto px-4 py-32 text-center">
