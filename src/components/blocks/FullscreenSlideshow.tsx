@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronLeft, ChevronRight, Play } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
-import { GlimpsesLightbox } from './GlimpsesLightbox';
+import { GlimpseLightbox } from './GlimpseLightbox';
 
 interface SlideItem {
   mediaUrl: string;

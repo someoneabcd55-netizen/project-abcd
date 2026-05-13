@@ -6,7 +6,7 @@ import { motion } from 'framer-motion';
 import { Play, Search, Clock } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Input } from '@/components/ui/input';
-import { GlimpsesLightbox } from './GlimpsesLightbox';
+import { GlimpseLightbox } from './GlimpseLightbox';
 
 interface VideoItem {
   videoUrl: string;
@@ -141,7 +141,7 @@ export function VideoGlimpses({
         </div>
 
         {selectedVideoIndex !== null && (
-          <GlimpsesLightbox
+          <GlimpseLightbox
             isOpen={selectedVideoIndex !== null}
             onClose={() => setSelectedVideoIndex(null)}
             items={filteredItems.map(i => ({

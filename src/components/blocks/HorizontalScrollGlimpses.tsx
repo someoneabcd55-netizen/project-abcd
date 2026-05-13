@@ -6,7 +6,7 @@ import { motion } from 'framer-motion';
 import { ChevronLeft, ChevronRight, Play } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
-import { GlimpsesLightbox } from './GlimpsesLightbox';
+import { GlimpseLightbox } from './GlimpseLightbox';
 
 interface ScrollItem {
   mediaUrl: string;
@@ -128,7 +128,7 @@ export function HorizontalScrollGlimpses({
       </div>
 
       {selectedItemIndex !== null && (
-        <GlimpsesLightbox
+        <GlimpseLightbox
           isOpen={selectedItemIndex !== null}
           onClose={() => setSelectedItemIndex(null)}
           items={items.map(i => ({

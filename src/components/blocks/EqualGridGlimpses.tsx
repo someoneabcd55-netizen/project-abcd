@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { Play } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { GlimpsesLightbox } from './GlimpsesLightbox';
+import { GlimpseLightbox } from './GlimpseLightbox';
 
 interface EqualGridItem {
   mediaUrl: string;
@@ -160,7 +160,7 @@ export function EqualGridGlimpses({
         </div>
 
         {selectedItemIndex !== null && (
-          <GlimpsesLightbox
+          <GlimpseLightbox
             isOpen={selectedItemIndex !== null}
             onClose={() => setSelectedItemIndex(null)}
             items={filteredItems.map(i => ({

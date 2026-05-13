@@ -9,7 +9,7 @@ export default async function AdmissionsPage() {
     
     try {
         const [blocks, appearance] = await Promise.all([
-            getPageBlocks('admissions'),
+            getPageBlocks('admissions').then(b => (b && b.length > 0) ? b : getPageBlocks('admission')),
             getAppearanceSettings(),
         ]);
 

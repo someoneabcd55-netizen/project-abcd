@@ -55,7 +55,6 @@ const getDefaultValues = (type: string, existingData: any) => {
     accordion: { items: [] },
     split: { split: '50/50', gap: 'md', leftBlocks: [], rightBlocks: [] },
     'image-layout': { title: '', layout: 'mosaic', items: [] },
-    'map-location': { title: 'Our Location', address: '', email: '', phone: '' },
     'masonry-Glimpses': { title: 'Our Glimpses', columns: 3, mediaType: 'images', items: [], filterOptions: [] },
     'featured-Glimpses': { title: 'Featured Collection', featuredItem: { mediaUrl: '', mediaType: 'image' }, gridItems: [], gridColumns: 2, mediaType: 'images' },
     'equal-grid-Glimpses': { title: 'Glimpses Grid', columns: 3, aspectRatio: '1:1', hoverStyle: 'overlay', items: [] },

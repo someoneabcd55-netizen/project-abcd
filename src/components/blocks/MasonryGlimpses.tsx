@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Search, Play } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Input } from '@/components/ui/input';
-import { GlimpsesLightbox } from './GlimpsesLightbox';
+import { GlimpseLightbox } from './GlimpseLightbox';
 
 interface MasonryGlimpsesProps {
   eyebrowLabel?: string;
@@ -148,7 +148,7 @@ export function MasonryGlimpses({
         </div>
 
         {selectedItemIndex !== null && (
-          <GlimpsesLightbox
+          <GlimpseLightbox
             isOpen={selectedItemIndex !== null}
             onClose={() => setSelectedItemIndex(null)}
             items={filteredItems.map(i => ({

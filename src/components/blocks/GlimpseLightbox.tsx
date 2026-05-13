@@ -14,14 +14,14 @@ interface LightboxItem {
   caption?: string;
 }
 
-interface GlimpsesLightboxProps {
+interface GlimpseLightboxProps {
   isOpen: boolean;
   onClose: () => void;
   items: LightboxItem[];
   initialIndex: number;
 }
 
-export function GlimpsesLightbox({ isOpen, onClose, items, initialIndex }: GlimpsesLightboxProps) {
+export function GlimpseLightbox({ isOpen, onClose, items, initialIndex }: GlimpseLightboxProps) {
   const [currentIndex, setCurrentIndex] = useState(initialIndex);
   const [isFullscreen, setIsFullscreen] = useState(false);
 
